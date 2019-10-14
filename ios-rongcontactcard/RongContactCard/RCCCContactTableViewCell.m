@@ -19,7 +19,8 @@
 - (instancetype)initWithFrame:(CGRect)frame {
   self = [super initWithFrame:frame];
   if (self) {
-    [self initialize];
+      [self initialize];
+      self.backgroundColor = [UIColor whiteColor];
   }
   return self;
 }
@@ -28,6 +29,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if(self) {
         [self initialize];
+        self.backgroundColor = [UIColor whiteColor];
     }
     return self;
 }
@@ -36,6 +38,7 @@
   self = [super initWithCoder:aDecoder];
   if (self) {
     [self initialize];
+    self.backgroundColor = [UIColor whiteColor];
   }
   return self;
 }

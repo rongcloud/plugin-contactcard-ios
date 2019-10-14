@@ -11,26 +11,6 @@
 #import "RCIMClient.h"
 
 /**
- IMLib阅后即焚监听器
- @discussion
- 请参考RCIMClient的setRCMessageDestructDelegate:方法。
- 
- @warning
- 可以设置并实现此Delegate监听消息焚烧；如果您使用IMKit，请直接注册RCIM中的RCKitMessageDestructingNotification通知，而不要使用此监听器，否则会导致IMKit中无法自动更新UI！
- */
-@protocol RCMessageDestructDelegate <NSObject>
-
-/**
- 消息正在焚烧
- 
- @param message 消息对象
- @param remainDuration 剩余焚烧时间
- */
-- (void)onMessageDestructing: (RCMessage *)message remainDuration: (long long)remainDuration;
-
-@end
-
-/**
  消息阅后即焚管理类
  */
 @interface RCBurnMessageService : NSObject
@@ -54,14 +34,21 @@
  
  @param message 消息
  */
-- (void)addBurnMessage: (RCMessage *)message;
+- (void)addBurnMessage:(RCMessage *)message;
 
 /**
  将多个消息加入焚烧倒计时队列
  
  @param messages 消息数组
  */
-- (void)addBurnMessages: (NSArray *)messages;
+- (void)addBurnMessages:(NSArray *)messages;
+
+/**
+ 从焚烧队列中移除消息
+
+ @param messages 消息数组
+ */
+- (void)removeBurnMessages:(NSArray *)messages;
 
 /**
  获取正在焚烧消息的剩余时间，如果返回nil代表该消息没有处在焚烧队列中

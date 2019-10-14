@@ -22,7 +22,6 @@
 @property (nonatomic,strong) NSArray *userListArr;//数据源
 @property (nonatomic,strong) NSMutableArray *dataArr;
 @property (nonatomic,strong) UISearchBar *searchBar;//搜索框
-@property (nonatomic,strong) UISearchDisplayController *searchDisplayController;//搜索VC
 //搜索出的结果数据集合
 @property(nonatomic, strong) NSMutableArray *matchSearchList;
 
@@ -45,7 +44,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-  
+    
     if ([self respondsToSelector:@selector(setExtendedLayoutIncludesOpaqueBars:)]) {
         [self setExtendedLayoutIncludesOpaqueBars:YES];
     }
@@ -143,11 +142,6 @@
         [_searchBar.layer setBorderColor:[UIColor colorWithRed:229.0/255 green:229.0/255 blue:229.0/255 alpha:1].CGColor];
         [_searchBar setDelegate:self];
         [_searchBar setKeyboardType:UIKeyboardTypeDefault];
-      for (UIView *subview in [[_searchBar.subviews firstObject] subviews]) {
-        if ([subview isKindOfClass:NSClassFromString(@"UISearchBarBackground")]) {
-          [subview removeFromSuperview];
-        }
-      }
     }
     return _searchBar;
 }
@@ -200,7 +194,7 @@
     return index-1;
 }
 - (CGFloat) tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
-    if (tableView==_searchDisplayController.searchResultsTableView) {
+    if (self.isSearchResult) {
         return 0;
     }else{
         return 22.0;

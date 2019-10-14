@@ -387,7 +387,17 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
      小视频消息超限
      */
     RC_SIGHT_MSG_DURATION_LIMIT_EXCEED = 34002,
+    
+    /*!
+     GIF 消息大小超限
+     */
+    RC_GIF_MSG_SIZE_LIMIT_EXCEED = 34003,
 
+};
+
+typedef NS_ENUM(NSInteger, RCDBErrorCode) {
+    RCDBOpenSuccess = 0,
+    RCDBOpenFailed = 33002,
 };
 
 #pragma mark - 连接状态
@@ -827,7 +837,12 @@ typedef NS_ENUM(NSUInteger, RCMediaType) {
     /*!
      小视频
      */
-    MediaType_SIGHT = 5
+    MediaType_SIGHT = 5,
+    
+    /*!
+     合并转发
+     */
+    MediaType_HTML = 6
 };
 
 #pragma mark RCMediaType - 消息中@提醒的类型
@@ -1035,6 +1050,12 @@ typedef NS_ENUM(NSUInteger, RCCSEvaType) {
  日志级别
  */
 typedef NS_ENUM(NSUInteger, RCLogLevel) {
+    
+    /*!
+     *  不输出任何日志
+     */
+    RC_Log_Level_None = 0,
+    
     /*!
      *  只输出错误的日志
      */

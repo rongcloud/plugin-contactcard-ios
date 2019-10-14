@@ -862,4 +862,16 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
  */
 - (void)showChooseUserViewController:(void (^)(RCUserInfo *selectedUserInfo))selectedBlock
                               cancel:(void (^)(void))cancelBlock;
+
+/*!
+ 合并转发消息的回调
+ 
+ @param index            0 是逐条转发消息, 1 是合并转发消息。
+ @param completedBlock   返回需要转发到的会话的列表。
+ 
+ @discussion
+ 开发者如果想更换转发消息的选择会话界面，可以重写此方法，弹出自定义的选择会话界面，选择结束之后，调用completedBlock传入选中的会话即可。
+ */
+- (void)forwardMessage:(NSInteger)index completed:(void (^)(NSArray<RCConversation *> * conversationList))completedBlock;
+
 @end

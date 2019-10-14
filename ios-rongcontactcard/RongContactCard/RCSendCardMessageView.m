@@ -15,11 +15,6 @@
 
 NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
 
-@interface RCMessageContent()
-@property(nonatomic, assign) BOOL isBurnAfterRead;
-@property(nonatomic, assign) NSInteger burnDuration;
-@end
-
 @interface RCSendCardMessageView ()
 
 @property(nonatomic, strong)UIView *contentView;
@@ -39,7 +34,7 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
 
 @property(nonatomic, strong)RCCCGroupInfo *groupInfo;
 
-@property(nonatomic, assign)NSInteger burnDuration;
+@property(nonatomic, assign)NSInteger destructDuration;
 @end
 
 @implementation RCSendCardMessageView
@@ -128,6 +123,10 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
   _messageTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 36)];
   _messageTextField.leftViewMode = UITextFieldViewModeAlways;
   _messageTextField.layer.cornerRadius = 5.f;
+  _messageTextField.textColor = [UIColor blackColor];
+  NSAttributedString *attrString = [[NSAttributedString alloc] initWithString:_messageTextField.placeholder attributes:@{NSForegroundColorAttributeName:[UIColor colorWithHexString:@"999999" alpha:1],
+                 NSFontAttributeName:_messageTextField.font}];
+  _messageTextField.attributedPlaceholder = attrString;
   _messageTextField.translatesAutoresizingMaskIntoConstraints = NO;
   [_contentView addSubview:_messageTextField];
   
@@ -296,9 +295,8 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
   }else {
     pushContent = [NSString stringWithFormat:@"%@%@",cardMessage.sendUserName,tail];
   }
-    if (self.burnDuration > 0) {
-        cardMessage.isBurnAfterRead = YES;
-        cardMessage.burnDuration = self.burnDuration;
+    if (self.destructDuration > 0) {
+        cardMessage.destructDuration = self.destructDuration;
     }
   __weak typeof(self) ws = self;
   [[RCIM sharedRCIM] sendMessage:_conversationType
@@ -339,9 +337,8 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     dispatch_async(dispatch_get_main_queue(), ^{
       if (_messageTextField.text.length > 0) {
         RCTextMessage *textMessage = [RCTextMessage messageWithContent:_messageTextField.text];
-          if (self.burnDuration > 0) {
-              textMessage.isBurnAfterRead = YES;
-              textMessage.burnDuration = self.burnDuration;
+          if (self.destructDuration > 0) {
+              textMessage.destructDuration = self.destructDuration;
           }
         [[RCIM sharedRCIM] sendMessage:_conversationType
                               targetId:_targetId

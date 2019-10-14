@@ -18,13 +18,7 @@ static CGFloat CELL_WIDTH = 0;
 @property(nonatomic, strong) UIView *destructView;
 @end
 
-@interface RCMessageContent()
-@property(nonatomic, assign) BOOL isBurnAfterRead;
-@property(nonatomic, assign) NSInteger burnDuration;
-@end
-
 @interface RCIMClient()
-- (void)messageBeginDestruct:(NSString *)messageUId;
 - (NSNumber *)getDestructMessageRemainDuration:(NSString *)messageUId;
 @end
 
@@ -249,26 +243,24 @@ static CGFloat CELL_WIDTH = 0;
 
 - (void)beginDestructing {
     RCContactCardMessage *cardMessage = (RCContactCardMessage *)self.model.content;
-    if (self.model.messageDirection == MessageDirection_RECEIVE && cardMessage.isBurnAfterRead && cardMessage.burnDuration > 0 && [UIApplication sharedApplication].applicationState != UIApplicationStateBackground && self.isConversationAppear) {
+    if (self.model.messageDirection == MessageDirection_RECEIVE && cardMessage.destructDuration > 0 && [UIApplication sharedApplication].applicationState != UIApplicationStateBackground && self.isConversationAppear) {
         [[RCIMClient sharedRCIMClient] messageBeginDestruct:self.model.messageUId];
     }
 }
 
 - (void)setDestructViewLayout {
     RCContactCardMessage *cardMessage = (RCContactCardMessage *)self.model.content;
-    if (cardMessage.isBurnAfterRead && cardMessage.burnDuration > 0 && [[RCIMClient sharedRCIMClient] getDestructMessageRemainDuration:self.model.messageUId]) {
+    if (cardMessage.destructDuration > 0) {
         self.destructView.hidden = NO;
+        [self.messageContentView bringSubviewToFront:self.destructView];
         if (self.messageDirection == MessageDirection_RECEIVE) {
-            self.messageHasReadStatusView.frame = CGRectMake(9, 0, 25, 25);
             self.destructView.frame = CGRectMake(CGRectGetMaxX(self.bubbleBackgroundView.frame)+4.5, CGRectGetMaxY(self.bubbleBackgroundView.frame)-13-8.5, 21, 12);
         } else {
-            self.messageHasReadStatusView.frame = CGRectMake(9-24, 0, 25, 25);
             self.destructView.frame = CGRectMake(CGRectGetMinX(self.bubbleBackgroundView.frame)-25.5, CGRectGetMaxY(self.bubbleBackgroundView.frame)-13-8.5, 21, 12);
         }
     } else {
         self.destructView.hidden = YES;
         self.destructView.frame = CGRectZero;
-        self.messageHasReadStatusView.frame = CGRectMake(9, 0, 25, 25);
     }
 }
 

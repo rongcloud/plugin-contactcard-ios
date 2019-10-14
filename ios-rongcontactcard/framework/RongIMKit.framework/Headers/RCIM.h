@@ -413,6 +413,36 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
           tokenIncorrect:(void (^)(void))tokenIncorrectBlock;
 
 /*!
+ 与融云服务器建立连接
+ 
+ @param token                   从您服务器端获取的token(用户身份令牌)
+ @param dbOpened                本地消息数据库打开的回调
+ @param successBlock            连接建立成功的回调 [userId:当前连接成功所用的用户ID
+ @param errorBlock              连接建立失败的回调 [status:连接失败的错误码]
+ @param tokenIncorrectBlock     token错误或者过期的回调
+ 
+ @discussion 在App整个生命周期，您只需要调用一次此方法与融云服务器建立连接。
+ 之后无论是网络出现异常或者App有前后台的切换等，SDK都会负责自动重连。
+ 除非您已经手动将连接断开，否则您不需要自己再手动重连。
+ 
+ tokenIncorrectBlock有两种情况：
+ 一是token错误，请您检查客户端初始化使用的AppKey和您服务器获取token使用的AppKey是否一致；
+ 二是token过期，是因为您在开发者后台设置了token过期时间，您需要请求您的服务器重新获取token并再次用新的token建立连接。
+ 
+ @warning 如果您使用IMKit，请使用此方法建立与融云服务器的连接；
+ 如果您使用IMLib，请使用RCIMClient中的同名方法建立与融云服务器的连接，而不要使用此方法。
+ 
+ 在tokenIncorrectBlock的情况下，您需要请求您的服务器重新获取token并建立连接，但是注意避免无限循环，以免影响App用户体验。
+ 
+ 此方法的回调并非为原调用线程，您如果需要进行UI操作，请注意切换到主线程。
+ */
+- (void)connectWithToken:(NSString *)token
+                dbOpened:(void (^)(RCDBErrorCode))dbOpenedBlock
+                 success:(void (^)(NSString *userId))successBlock
+                   error:(void (^)(RCConnectErrorCode status))errorBlock
+          tokenIncorrect:(void (^)(void))tokenIncorrectBlock;
+
+/*!
  断开与融云服务器的连接
 
  @param isReceivePush   App在断开连接之后，是否还接收远程推送
@@ -1130,4 +1160,22 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
  @return        YES处理，NO未处理。
  */
 - (BOOL)openExtensionModuleUrl:(NSURL *)url;
+
+/**
+ GIF 消息自动下载的大小 size, 单位 KB
+ */
+@property(nonatomic, assign) NSInteger GIFMsgAutoDownloadSize;
+
+/*!
+ 是否开启合并转发功能，默认值是NO，开启之后可以合并转发消息(目前只支持单聊和群聊)
+ */
+@property(nonatomic, assign) BOOL enableSendCombineMessage;
+
+/*!
+ 是否开启阅后即焚功能，默认值是NO，开启之后可以在聊天页面扩展板中使用阅后即焚功能(目前只支持单聊)
+ 
+ @discussion 目前 IMKit 仅支持文本、语音、图片、小视频消息。
+ */
+@property(nonatomic, assign) BOOL enableBurnMessage;
+
 @end

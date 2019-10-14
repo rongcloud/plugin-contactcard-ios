@@ -25,7 +25,7 @@
 #define FwLogD(p, t, k, ...) [[RCFwLog getInstance] write:RC_Level_D type:p tag:t keys:k, ##__VA_ARGS__]
 #define FwLogV(p, t, k, ...) [[RCFwLog getInstance] write:RC_Level_V type:p tag:t keys:k, ##__VA_ARGS__]
 
-typedef NS_ENUM(NSUInteger, RCFwLogLevel) { RC_Level_F = 1, RC_Level_E = 2, RC_Level_W = 3, RC_Level_I = 4, RC_Level_D = 5, RC_Level_V = 6 };
+typedef NS_ENUM(NSUInteger, RCFwLogLevel) {RC_Level_N = 0, RC_Level_F = 1, RC_Level_E = 2, RC_Level_W = 3, RC_Level_I = 4, RC_Level_D = 5, RC_Level_V = 6 };
 
 typedef NS_OPTIONS(NSUInteger, RCLogType) {
     RC_Type_APP = 1 << 0,  // User interface.
@@ -55,6 +55,9 @@ typedef NS_OPTIONS(NSUInteger, RCLogType) {
 + (void)setLogListener:(void (^)(NSString *log))logBlock;
 + (void)setConsoleLogLevel:(RCFwLogLevel)level;
 + (NSString *)getIpWithHost:(NSString *)hostName;
++ (void)setRcDebugLogLevel:(NSInteger)rcDebugLogLevel;
++ (void)setRcDebugLogMaxSize:(long long)rcDebugLogMaxSize;
+- (void)uploadDebugLog;
 - (void)write:(RCFwLogLevel)level
          type:(RCLogType)type
           tag:(NSString *)tag

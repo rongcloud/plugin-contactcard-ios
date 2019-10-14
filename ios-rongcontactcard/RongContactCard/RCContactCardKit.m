@@ -12,7 +12,7 @@
 @interface RCSendCardMessageView()
 @property(nonatomic)RCConversationType conversationType;
 @property(nonatomic, strong)NSString *targetId;
-@property(nonatomic, assign)NSInteger burnDuration;
+@property(nonatomic, assign)NSInteger destructDuration;
 @end
 
 @implementation RCContactCardKit
@@ -45,13 +45,13 @@
  @param targetUserInfo 名片消息的目标会话的用户信息
  @param targetId 指定目标Id
  @param conversationType 指定会话类型
- @param burnDuration 焚烧时间，如果不需要焚烧则传0
+ @param destructDuration 焚烧时间，如果不需要焚烧则传0
  */
 - (void)popupSendContactCardView:(RCCCUserInfo*)cardUserInfo
                   targetUserInfo:(RCCCUserInfo*)targetUserInfo
                         targetId: (NSString *)targetId
                 conversationType: (RCConversationType)conversationType
-                    burnDuration: (NSInteger)burnDuration {
+                    destructDuration: (NSInteger)destructDuration {
     RCSendCardMessageView *sendCardView = [[RCSendCardMessageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     RCUserInfo *userInfo = [RCUserInfo new];
     userInfo.userId = cardUserInfo.userId;
@@ -61,7 +61,7 @@
     sendCardView.targetUserInfo = targetUserInfo;
     sendCardView.targetId = targetId;
     sendCardView.conversationType = conversationType;
-    sendCardView.burnDuration = burnDuration;
+    sendCardView.destructDuration = destructDuration;
     [[UIApplication sharedApplication].delegate.window addSubview:sendCardView];
 }
 

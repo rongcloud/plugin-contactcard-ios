@@ -129,6 +129,13 @@
 @property(nonatomic, strong) RCMentionedInfo *mentionedInfo;
 
 /**
+ 设置焚烧时间
+ 
+ @discussion 默认是 0，0 代表该消息非阅后即焚消息。
+ */
+@property(nonatomic, assign) NSUInteger destructDuration;
+
+/**
  将用户信息编码到字典中
  
  @param userInfo 要编码的用户信息

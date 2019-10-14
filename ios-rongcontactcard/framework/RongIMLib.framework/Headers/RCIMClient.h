@@ -32,6 +32,7 @@
 #import "RCUserOnlineStatusInfo.h"
 #import "RCWatchKitStatusDelegate.h"
 #import "RCSendMessageOption.h"
+#import "RCRemoteHistoryMsgOption.h"
 
 #pragma mark - 消息接收监听器
 
@@ -229,6 +230,24 @@
 
 @end
 
+#pragma mark - 阅后即焚
+
+/**
+ IMLib阅后即焚监听器
+ @discussion 设置代理请参考 RCIMClient 的 setRCMessageDestructDelegate: 方法。
+ */
+@protocol RCMessageDestructDelegate <NSObject>
+
+/**
+ 消息正在焚烧
+ 
+ @param message 消息对象
+ @param remainDuration 剩余焚烧时间
+ */
+- (void)onMessageDestructing: (RCMessage *)message remainDuration: (long long)remainDuration;
+
+@end
+
 #pragma mark - IMLib核心类
 
 /*!
@@ -284,6 +303,25 @@
 - (void)initWithAppKey:(NSString *)appKey;
 
 /*!
+设置 deviceToken（已兼容 iOS 13），用于远程推送
+
+@param deviceTokenData     从系统获取到的设备号 deviceTokenData (不需要处理)
+
+@discussion
+deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远程推送必须使用的设备唯一值。
+您需要将 -application:didRegisterForRemoteNotificationsWithDeviceToken: 获取到的 deviceToken 作为参数传入此方法。
+
+如:
+
+   - (void)application:(UIApplication *)application
+   didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
+       [[RCIMClient sharedRCIMClient] setDeviceTokenData:deviceToken];
+   }
+
+*/
+- (void)setDeviceTokenData:(NSData *)deviceTokenData;
+
+/*!
  设置deviceToken，用于远程推送
 
  @param deviceToken     从系统获取到的设备号deviceToken(需要去掉空格和尖括号)
@@ -296,15 +334,19 @@
 
     - (void)application:(UIApplication *)application
     didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-        NSString *token = [deviceToken description];
-        token = [token stringByReplacingOccurrencesOfString:@"<"
- withString:@""];
-        token = [token stringByReplacingOccurrencesOfString:@">"
- withString:@""];
-        token = [token stringByReplacingOccurrencesOfString:@" "
- withString:@""];
+        NSString *token = [self getHexStringForData:deviceToken];
         [[RCIMClient sharedRCIMClient] setDeviceToken:token];
     }
+
+    - (NSString *)getHexStringForData:(NSData *)data {
+        NSUInteger len = [data length];
+        char *chars = (char *)[data bytes];
+        NSMutableString *hexString = [[NSMutableString alloc] init];
+        for (NSUInteger i = 0; i < len; i ++) {
+            [hexString appendString:[NSString stringWithFormat:@"%0.2hhx", chars[i]]];
+        }
+        return hexString;
+     }
 
  */
 - (void)setDeviceToken:(NSString *)deviceToken;
@@ -369,6 +411,37 @@
  此方法的回调并非为原调用线程，您如果需要进行UI操作，请注意切换到主线程。
  */
 - (void)connectWithToken:(NSString *)token
+                 success:(void (^)(NSString *userId))successBlock
+                   error:(void (^)(RCConnectErrorCode status))errorBlock
+          tokenIncorrect:(void (^)(void))tokenIncorrectBlock;
+
+/*!
+ 与融云服务器建立连接
+ 
+ @param token                   从您服务器端获取的token(用户身份令牌)
+ @param dbOpened                本地消息数据库打开的回调
+ @param successBlock            连接建立成功的回调
+ [userId:当前连接成功所用的用户ID]
+ @param errorBlock              连接建立失败的回调 [status:连接失败的错误码]
+ @param tokenIncorrectBlock     token错误或者过期的回调
+ 
+ @discussion 在App整个生命周期，您只需要调用一次此方法与融云服务器建立连接。
+ 之后无论是网络出现异常或者App有前后台的切换等，SDK都会负责自动重连。
+ 除非您已经手动将连接断开，否则您不需要自己再手动重连。
+ 
+ tokenIncorrectBlock有两种情况：
+ 一是token错误，请您检查客户端初始化使用的AppKey和您服务器获取token使用的AppKey是否一致；
+ 二是token过期，是因为您在开发者后台设置了token过期时间，您需要请求您的服务器重新获取token并再次用新的token建立连接。
+ 
+ @warning 如果您使用IMLib，请使用此方法建立与融云服务器的连接；
+ 如果您使用IMKit，请使用RCIM中的同名方法建立与融云服务器的连接，而不要使用此方法。
+ 
+ 在tokenIncorrectBlock的情况下，您需要请求您的服务器重新获取token并建立连接，但是注意避免无限循环，以免影响App用户体验。
+ 
+ 此方法的回调并非为原调用线程，您如果需要进行UI操作，请注意切换到主线程。
+ */
+- (void)connectWithToken:(NSString *)token
+                dbOpened:(void (^)(RCDBErrorCode code))dbOpenedBlock
                  success:(void (^)(NSString *userId))successBlock
                    error:(void (^)(RCConnectErrorCode status))errorBlock
           tokenIncorrect:(void (^)(void))tokenIncorrectBlock;
@@ -483,6 +556,17 @@
  用于Apple Watch的IMLib事务监听器
  */
 @property(nonatomic, strong) id<RCWatchKitStatusDelegate> watchKitStatusDelegate;
+
+#pragma mark - 阅后即焚监听
+
+/**
+ 设置IMLib的阅后即焚监听器
+ 
+ @param delegate 阅后即焚监听器
+ @discussion 可以设置并实现此 Delegate 监听消息焚烧
+ @warning 如果您使用IMKit，请不要使用此监听器，否则会导致IMKit中无法自动更新UI！
+ */
+- (void)setRCMessageDestructDelegate:(id<RCMessageDestructDelegate>)delegate;
 
 #pragma mark - 用户信息
 
@@ -1036,20 +1120,20 @@
  发送定向消息
 
  @param conversationType 发送消息的会话类型
- @param targetId         发送消息的目标会话ID
- @param userIdList       发送给的用户ID列表
+ @param targetId         发送消息的目标会话 ID
+ @param userIdList       接收消息的用户 ID 列表
  @param content          消息的内容
  @param pushContent      接收方离线时需要显示的远程推送内容
  @param pushData         接收方离线时需要在远程推送中携带的非显示数据
- @param successBlock     消息发送成功的回调 [messageId:消息的ID]
+ @param successBlock     消息发送成功的回调 [messageId:消息的 ID]
  @param errorBlock       消息发送失败的回调 [errorCode:发送失败的错误码,
- messageId:消息的ID]
+ messageId:消息的 ID]
 
  @return 发送的消息实体
 
  @discussion 此方法用于在群组和讨论组中发送消息给其中的部分用户，其它用户不会收到这条消息。
- 如果您使用IMLib，可以使用此方法发送定向消息；
- 如果您使用IMKit，请使用RCIM中的同名方法发送定向消息，否则不会自动更新UI。
+ 如果您使用 IMLib，可以使用此方法发送定向消息；
+ 如果您使用 IMKit，请使用 RCIM 中的同名方法发送定向消息，否则不会自动更新 UI。
 
  @warning 此方法目前仅支持群组和讨论组。
  */
@@ -1377,6 +1461,25 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
                            error:(void (^)(RCErrorCode status))errorBlock;
 
 /*!
+ 从服务器端获取之前的历史消息
+ 
+ @param conversationType    会话类型
+ @param targetId            目标会话ID
+ @param option              可配置的参数
+ @param successBlock        获取成功的回调 [messages:获取到的历史消息数组, isRemaining 是否还有剩余消息 YES 表示还有剩余，NO 表示无剩余]
+ @param errorBlock          获取失败的回调 [status:获取失败的错误码]
+ 
+ @discussion
+ 此方法从服务器端获取之前的历史消息，但是必须先开通历史消息云存储功能。
+ 例如，本地会话中有10条消息，您想拉取更多保存在服务器的消息的话，recordTime应传入最早的消息的发送时间戳，count传入1~20之间的数值。
+ */
+- (void)getRemoteHistoryMessages:(RCConversationType)conversationType
+                        targetId:(NSString *)targetId
+                          option:(RCRemoteHistoryMsgOption *)option
+                         success:(void (^)(NSArray *messages,BOOL isRemaining))successBlock
+                           error:(void (^)(RCErrorCode status))errorBlock;
+
+/*!
  从服务器端获取聊天室的历史消息
  @param targetId            聊天室ID
  @param recordTime          起始的消息发送时间戳，毫秒
@@ -1489,7 +1592,7 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
 /*!
  删除某个会话中的所有消息
 
- @param conversationType    会话类型，不支持聊天室
+ @param conversationType    会话类型
  @param targetId            目标会话ID
  @return                    是否删除成功
  */
@@ -1521,6 +1624,22 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
  @return                是否设置成功
  */
 - (BOOL)setMessageSentStatus:(long)messageId sentStatus:(RCSentStatus)sentStatus;
+
+/**
+ 开始焚烧消息（目前仅支持单聊）
+ 
+ @param message 消息类
+ @discussion 仅限接收方调用
+ */
+- (void)messageBeginDestruct:(RCMessage *)message;
+
+/**
+ 停止焚烧消息（目前仅支持单聊）
+ 
+ @param message 消息类
+ @discussion 仅限接收方调用
+ */
+- (void)messageStopDestruct:(RCMessage *)message;
 
 #pragma mark - 会话列表操作
 /*!
@@ -2060,15 +2179,15 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
 /*!
  加入聊天室（如果聊天室不存在则会创建）
 
- @param targetId                聊天室ID
- @param messageCount 进入聊天室时获取历史消息的数量，-1<=messageCount<=50
- @param successBlock            加入聊天室成功的回调
- @param errorBlock              加入聊天室失败的回调
- [status:加入聊天室失败的错误码]
+ @param targetId        聊天室 ID
+ @param messageCount    进入聊天室时获取历史消息的数量，-1 <= messageCount <= 50
+ @param successBlock    加入聊天室成功的回调
+ @param errorBlock      加入聊天室失败的回调
+ [status: 加入聊天室失败的错误码]
 
  @discussion
- 可以通过传入的messageCount设置加入聊天室成功之后，需要获取的历史消息数量。
- -1表示不获取任何历史消息，0表示不特殊设置而使用SDK默认的设置（默认为获取10条），0<messageCount<=50为具体获取的消息数量,最大值为50。注：如果是7.x系统获取历史消息数量不要大于30
+ 可以通过传入的 messageCount 设置加入聊天室成功之后需要获取的历史消息数量。
+ -1 表示不获取任何历史消息，0 表示不特殊设置而使用SDK默认的设置（默认为获取 10 条），0 < messageCount <= 50 为具体获取的消息数量,最大值为 50。注：如果是 7.x 系统获取历史消息数量不要大于 30
  */
 - (void)joinChatRoom:(NSString *)targetId
         messageCount:(int)messageCount
@@ -2076,23 +2195,21 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
                error:(void (^)(RCErrorCode status))errorBlock;
 
 /*!
- 加入已经存在的聊天室（如果不存在或超限会返回聊天室不存在错误23410 或 人数超限
- 23411）
+ 加入已经存在的聊天室（如果聊天室不存在返回错误 23410，人数超限返回错误 23411）
 
- @param targetId                聊天室ID
- @param messageCount 进入聊天室时获取历史消息的数量，-1<=messageCount<=50
- @param successBlock            加入聊天室成功的回调
- @param errorBlock              加入聊天室失败的回调
- [status:加入聊天室失败的错误码]
+ @param targetId        聊天室 ID
+ @param messageCount    进入聊天室时获取历史消息的数量，-1 <= messageCount <= 50
+ @param successBlock    加入聊天室成功的回调
+ @param errorBlock      加入聊天室失败的回调
+ [status: 加入聊天室失败的错误码]
 
  @warning
- 注意：使用Kit库的会话页面viewDidLoad会自动调用joinChatRoom加入聊天室（聊天室不存在会自动创建），
- 如果您只想加入已存在的聊天室，需要在push到会话页面之前调用这个方法并且messageCount
- 传-1，成功之后push到会话页面，失败需要您做相应提示处理
+ 注意：使用 IMKit 库的会话页面，viewDidLoad 会自动调用 joinChatRoom 加入聊天室（聊天室不存在会自动创建）。
+ 如果您只想加入已存在的聊天室，需要在 push 到会话页面之前调用这个方法并且 messageCount 传 -1，成功之后 push 到会话页面，失败需要您做相应提示处理。
 
  @discussion
- 可以通过传入的messageCount设置加入聊天室成功之后，需要获取的历史消息数量。
- -1表示不获取任何历史消息，0表示不特殊设置而使用SDK默认的设置（默认为获取10条），0<messageCount<=50为具体获取的消息数量,最大值为50。
+ 可以通过传入的 messageCount 设置加入聊天室成功之后，需要获取的历史消息数量。
+ -1 表示不获取任何历史消息，0 表示不特殊设置而使用SDK默认的设置（默认为获取 10 条），0 < messageCount <= 50 为具体获取的消息数量，最大值为 50。
  */
 - (void)joinExistChatRoom:(NSString *)targetId
              messageCount:(int)messageCount
@@ -2659,6 +2776,13 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
  @param  appVer   用户 APP 的版本信息。
  */
 - (void)setAppVer:(NSString *)appVer;
+
+/**
+ GIF 消息大小限制，以 KB 为单位，超过这个大小的 GIF 消息不能被发送
+ 
+ @return GIF 消息大小，以 KB 为单位
+ */
+- (NSInteger)getGIFLimitSize;
 
 @end
 
