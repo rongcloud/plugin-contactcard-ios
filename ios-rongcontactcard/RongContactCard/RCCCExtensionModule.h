@@ -10,6 +10,6 @@
 #import <RongIMKit/RongIMKit.h>
 #import "RongContactCard.h"
 
-@interface RCCCExtensionModule : NSObject<RongIMKitExtensionModule>
+@interface RCCCExtensionModule : NSObject <RongIMKitExtensionModule>
 
 @end

@@ -10,7 +10,7 @@
 #import <RongIMLib/RongIMLib.h>
 #import <UIKit/UIKit.h>
 
-@interface RCCCUtilities: NSObject
+@interface RCCCUtilities : NSObject
 + (UIImage *)imageNamed:(NSString *)name ofBundle:(NSString *)bundleName;
 + (NSString *)hanZiToPinYinWithString:(NSString *)hanZi;
 + (NSString *)getFirstUpperLetter:(NSString *)hanzi;

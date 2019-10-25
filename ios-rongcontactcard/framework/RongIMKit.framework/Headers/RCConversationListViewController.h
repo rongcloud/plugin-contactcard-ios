@@ -25,7 +25,8 @@
  初始化会话列表
 
  @param displayConversationTypeArray    列表中需要显示的会话类型数组(需要将RCConversationType转为NSNumber构建Array)
- @param collectionConversationTypeArray 列表中需要聚合为一条显示的会话类型数组(需要将RCConversationType转为NSNumber构建Array)
+ @param collectionConversationTypeArray
+ 列表中需要聚合为一条显示的会话类型数组(需要将RCConversationType转为NSNumber构建Array)
  @return                                    会话列表对象
 
  @discussion
@@ -41,14 +42,14 @@
 
  @discussion 数组中的元素为RCConversationType转换的NSNumber
  */
-@property(nonatomic, strong) NSArray *displayConversationTypeArray;
+@property (nonatomic, strong) NSArray *displayConversationTypeArray;
 
 /*!
  列表中需要聚合为一条显示的会话类型数组
 
  @discussion 数组中的元素为RCConversationType转换的NSNumber
  */
-@property(nonatomic, strong) NSArray *collectionConversationTypeArray;
+@property (nonatomic, strong) NSArray *collectionConversationTypeArray;
 
 /*!
  设置在列表中需要显示的会话类型
@@ -69,7 +70,7 @@
 
  @discussion 您在点击会话列表中的聚合Cell跳转到到子会话列表时，需要将此属性设置为YES。
  */
-@property(nonatomic, assign) BOOL isEnteredToCollectionViewController;
+@property (nonatomic, assign) BOOL isEnteredToCollectionViewController;
 
 #pragma mark - 列表属性
 /*!
@@ -78,12 +79,12 @@
  @discussion 数据源中存放的元素为会话Cell的数据模型，即RCConversationModel对象。
  @warning 非线程安全，请在主线程操作此属性
  */
-@property(nonatomic, strong) NSMutableArray *conversationListDataSource;
+@property (nonatomic, strong) NSMutableArray *conversationListDataSource;
 
 /*!
  列表的TableView
  */
-@property(nonatomic, strong) UITableView *conversationListTableView;
+@property (nonatomic, strong) UITableView *conversationListTableView;
 
 #pragma mark - 网络连接变化状态提醒
 
@@ -92,31 +93,31 @@
 
  @discussion 默认值为YES。
  */
-@property(nonatomic, assign) BOOL isShowNetworkIndicatorView;
+@property (nonatomic, assign) BOOL isShowNetworkIndicatorView;
 
 /*!
  当连接状态变化SDK自动重连时，是否在NavigationBar中显示连接中的提示。
 
  @discussion 默认是是NO。
  */
-@property(nonatomic, assign) BOOL showConnectingStatusOnNavigatorBar;
+@property (nonatomic, assign) BOOL showConnectingStatusOnNavigatorBar;
 
 #pragma mark - 显示相关
 
 /*!
  列表为空时显示的View
  */
-@property(nonatomic, strong) UIView *emptyConversationView;
+@property (nonatomic, strong) UIView *emptyConversationView;
 
 /*!
  Cell的背景颜色
  */
-@property(nonatomic, strong) UIColor *cellBackgroundColor;
+@property (nonatomic, strong) UIColor *cellBackgroundColor;
 
 /*!
  置顶会话的Cell背景颜色
  */
-@property(nonatomic, strong) UIColor *topCellBackgroundColor;
+@property (nonatomic, strong) UIColor *topCellBackgroundColor;
 
 /*!
  设置在会话列表中显示的头像形状，矩形或者圆形（全局有效）
@@ -270,7 +271,7 @@
 
  @discussion 默认值为YES。
  */
-@property(nonatomic, assign) BOOL showConversationListWhileLogOut;
+@property (nonatomic, assign) BOOL showConversationListWhileLogOut;
 
 #pragma mark - 其他
 
@@ -306,7 +307,7 @@
 /*!
  提示网络连接不可用的View（已废弃，请勿使用）
  */
-@property(nonatomic, strong) RCNetworkIndicatorView *networkIndicatorView;
+@property (nonatomic, strong) RCNetworkIndicatorView *networkIndicatorView;
 
 /*!
  当showConnectingStatusOnNavigatorBar设置为YES时，连接状态变化时更新NavigationBar的回调（已废弃，请勿使用）

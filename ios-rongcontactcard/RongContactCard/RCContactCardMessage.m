@@ -9,9 +9,9 @@
 #import "RCContactCardMessage.h"
 
 @implementation RCContactCardMessage
-+ (instancetype)messageWithUserInfo:(RCUserInfo *)userInfo{
-    RCContactCardMessage *cardMessage =[[RCContactCardMessage alloc]init];
-    if(cardMessage){
++ (instancetype)messageWithUserInfo:(RCUserInfo *)userInfo {
+    RCContactCardMessage *cardMessage = [[RCContactCardMessage alloc] init];
+    if (cardMessage) {
         cardMessage.userId = userInfo.userId;
         cardMessage.name = userInfo.name;
         cardMessage.portraitUri = userInfo.portraitUri;
@@ -19,11 +19,10 @@
     return cardMessage;
 }
 
-
 #pragma mark - NSCoding protocol methods
-#define KEY_CARDMSG_USERID        @"userId"
-#define KEY_CARDMSG_NAME         @"name"
-#define KEY_CARDMSG_PORTRAITURI  @"portraitUri"
+#define KEY_CARDMSG_USERID @"userId"
+#define KEY_CARDMSG_NAME @"name"
+#define KEY_CARDMSG_PORTRAITURI @"portraitUri"
 #define KEY_CARDMSG_DESTRUCTDURATION @"burnDuration"
 - (instancetype)initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
@@ -58,20 +57,18 @@
     if (self.destructDuration > 0) {
         [dataDict setObject:@(self.destructDuration) forKey:KEY_CARDMSG_DESTRUCTDURATION];
     }
-    
+
     if (self.senderUserInfo) {
         [dataDict setObject:[self encodeUserInfo:self.senderUserInfo] forKey:@"user"];
     }
-    
+
     if (self.extra) {
-      [dataDict setObject:self.extra forKey:@"extra"];
+        [dataDict setObject:self.extra forKey:@"extra"];
     }
     [dataDict setObject:self.sendUserId forKey:@"sendUserId"];
     [dataDict setObject:self.sendUserName forKey:@"sendUserName"];
-  
-    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict
-                                                   options:kNilOptions
-                                                     error:nil];
+
+    NSData *data = [NSJSONSerialization dataWithJSONObject:dataDict options:kNilOptions error:nil];
     return data;
 }
 
@@ -80,10 +77,8 @@
     if (!data) {
         return;
     }
-    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data
-                                                               options:kNilOptions
-                                                                 error:&__error];
-    if(dictionary){
+    NSDictionary *dictionary = [NSJSONSerialization JSONObjectWithData:data options:kNilOptions error:&__error];
+    if (dictionary) {
         self.userId = dictionary[KEY_CARDMSG_USERID];
         self.name = dictionary[KEY_CARDMSG_NAME];
         self.portraitUri = dictionary[KEY_CARDMSG_PORTRAITURI];
@@ -94,7 +89,6 @@
         NSDictionary *userinfoDic = dictionary[@"user"];
         [self decodeUserInfo:userinfoDic];
     }
-    
 }
 
 + (NSString *)getObjectName {
@@ -108,12 +102,14 @@
 
 #pragma mark RCMessageContentView
 - (NSString *)conversationDigest {
-    
+
     NSString *displayContent;
     if ([[RCIMClient sharedRCIMClient].currentUserInfo.userId isEqualToString:self.sendUserId]) {
-      displayContent = [NSString stringWithFormat:NSLocalizedStringFromTable(@"SharedContactCard",@"RongCloudKit", nil),self.name];
+        displayContent = [NSString
+            stringWithFormat:NSLocalizedStringFromTable(@"SharedContactCard", @"RongCloudKit", nil), self.name];
     } else {
-      displayContent = [NSString stringWithFormat:NSLocalizedStringFromTable(@"RecommendedToYou",@"RongCloudKit", nil),self.name];
+        displayContent = [NSString
+            stringWithFormat:NSLocalizedStringFromTable(@"RecommendedToYou", @"RongCloudKit", nil), self.name];
     }
     return displayContent;
 }
