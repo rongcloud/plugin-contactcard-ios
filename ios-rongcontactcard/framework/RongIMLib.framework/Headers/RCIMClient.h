@@ -2490,7 +2490,8 @@ FOUNDATION_EXPORT NSString *const RCLibDispatchReadReceiptNotification;
 
   @discussion 老版本 SDK 不兼容新版本语音消息
   2.9.19 之前的版本无法播放高音质语音消息；
-  2.9.19 及之后的版本可以同时兼容普通音质语音消息和高音质语音消息。
+  2.9.19 及之后的版本可以同时兼容普通音质语音消息和高音质语音消息；
+  客服会话类型 (ConversationType_CUSTOMERSERVICE) 不支持高音质语音消息。
   */
 @property (nonatomic, assign) RCVoiceMessageType voiceMsgType;
 

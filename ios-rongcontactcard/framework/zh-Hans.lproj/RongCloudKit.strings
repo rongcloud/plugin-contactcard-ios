@@ -198,7 +198,7 @@
 "chatListDate"="yyyy/M/d";
 "SameYearDate"="yy/M/d";
 "locale"="zh_CN";
-"readNum"="%d人已读";
+"readNum"="%d 人已读";
 "read"="已读";
 "punctuation"="，";
 "Dawn"="凌晨 h:mm";

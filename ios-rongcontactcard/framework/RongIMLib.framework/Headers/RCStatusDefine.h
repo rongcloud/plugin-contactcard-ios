@@ -291,7 +291,7 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     RC_CHATROOM_NOT_EXIST = 23410,
 
     /*!
-     聊天室成员超限
+     聊天室成员超限，默认聊天室成员没有人数限制，但是开发者可以提交工单申请针对 App Key 进行聊天室人数限制，在限制人数的情况下，调用加入聊天室的接口时人数超限，就会返回此错误码
      */
     RC_CHATROOM_IS_FULL = 23411,
 
@@ -304,6 +304,36 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
      聊天室云存储业务未开通
      */
     RC_ROAMING_SERVICE_UNAVAILABLE_CHATROOM = 23414,
+
+    /*!
+     超过聊天室的最大 KV 设置数，1 个聊天室默认最多设置 100 个
+     */
+    RC_EXCCED_MAX_KV_SIZE = 23423,
+
+    /*!
+     聊天室中非法覆盖 KEY 值（key 已存在，没有权限覆盖）
+     */
+    RC_TRY_OVERWRITE_INVALID_KEY = 23424,
+
+    /*!
+     超聊天室中 KV 设置频率，1 个聊天室 1 秒钟最多操作（设置和删除）KV 100 次
+     */
+    RC_EXCCED_MAX_CALL_API_SIZE = 23425,
+
+    /*!
+     聊天室 KV 功能没有开通，请联系商务开通
+     */
+    RC_KV_STORE_NOT_AVAILABLE = 23426,
+
+    /*!
+     聊天室 Key 不存在
+    */
+    RC_KEY_NOT_EXIST = 23427,
+
+    /*!
+     聊天室 KV 未同步完成（本地数据和服务器未同步完成）
+     */
+    RC_KV_STORE_NOT_SYNC = 34004,
 
     /*!
      当前连接不可用（连接已经被释放）
@@ -868,7 +898,7 @@ typedef NS_ENUM(NSUInteger, RCMentionedType) {
  - RCSample_Rate_16000: 16KHz
  */
 typedef NS_ENUM(NSInteger, RCSampleRate) {
-    RCSample_Rate_8000 = 1, // 8KHz
+    RCSample_Rate_8000 = 1,  // 8KHz
     RCSample_Rate_16000 = 2, // 16KHz
 };
 

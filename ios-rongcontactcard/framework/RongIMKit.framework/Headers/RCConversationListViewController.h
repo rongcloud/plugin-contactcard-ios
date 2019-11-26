@@ -182,13 +182,15 @@
 #pragma mark - Cell加载显示的回调
 
 /*!
- 即将加载列表数据源的回调
+ 即将加载增量数据源的回调
 
- @param dataSource      即将加载的列表数据源（元素为RCConversationModel对象）
+ @param dataSource      即将加载的增量数据源（元素为RCConversationModel对象）
  @return                修改后的数据源（元素为RCConversationModel对象）
 
  @discussion 您可以在回调中修改、添加、删除数据源的元素来定制显示的内容，会话列表会根据您返回的修改后的数据源进行显示。
  数据源中存放的元素为会话Cell的数据模型，即RCConversationModel对象。
+ 2.9.21 及其以前版本，dataSource 为全量数据，conversationListDataSource = dataSource
+ 2.9.22 及其以后版本，dataSource 为增量数据，conversationListDataSource += dataSource，如果需要更改全量数据的内容，可以更改 conversationListDataSource
  */
 - (NSMutableArray *)willReloadTableData:(NSMutableArray *)dataSource;
 

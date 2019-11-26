@@ -554,6 +554,22 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
 - (void)willDisplayConversationTableCell:(RCMessageBaseCell *)cell
                              atIndexPath:(NSIndexPath *)indexPath __deprecated_msg("已废弃，请勿使用。");
 
+/*!
+多选模式时，消息将要被选择时的回调
+
+@param model 消息 Cell 的数据模型
+@return 是否继续执行选择操作，默认是YES
+*/
+- (BOOL)willSelectMessage:(RCMessageModel *)model;
+
+/*!
+多选模式时，消息将要被取消选择时的回调
+
+@param model 消息 Cell 的数据模型
+@return 是否继续执行取消选择操作，默认是YES
+*/
+- (BOOL)willCancelSelectMessage:(RCMessageModel *)model;
+
 #pragma mark - 自定义消息
 /*!
  注册自定义消息的Cell

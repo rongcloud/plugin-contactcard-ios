@@ -416,7 +416,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
  与融云服务器建立连接
 
  @param token                   从您服务器端获取的token(用户身份令牌)
- @param dbOpened                本地消息数据库打开的回调
+ @param dbOpenedBlock                本地消息数据库打开的回调
  @param successBlock            连接建立成功的回调 [userId:当前连接成功所用的用户ID
  @param errorBlock              连接建立失败的回调 [status:连接失败的错误码]
  @param tokenIncorrectBlock     token错误或者过期的回调
@@ -722,7 +722,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 @property (nonatomic, assign) BOOL disableMessageAlertSound;
 
 /*!
- 是否开启发送输入状态，默认值是NO，开启之后在输入消息的时候对方可以看到正在输入的提示(目前只支持单聊)
+ 是否开启发送输入状态，默认值是 YES，开启之后在输入消息的时候对方可以看到正在输入的提示(目前只支持单聊)
  */
 @property (nonatomic, assign) BOOL enableTypingStatus;
 
@@ -738,26 +738,33 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
     "已废弃，请使用enabledReadReceiptConversationTypeList，设置开启回执的会话类型。");
 
 /*!
- 开启已读回执功能的会话类型，默认为空
+ 开启已读回执功能的会话类型，默认为 单聊、群聊和讨论组
 
  @discussion 这些会话类型的消息在会话页面显示了之后会发送已读回执。目前仅支持单聊、群聊和讨论组。
  */
 @property (nonatomic, copy) NSArray *enabledReadReceiptConversationTypeList;
 
 /*!
- 是否开启多端同步未读状态的功能，默认值是NO
+ 设置群组、讨论组发送已读回执请求的有效时间，单位是秒，默认值是 120s。
+ 
+ @discussion 用户在群组或讨论组中发送消息，退出会话页面再次进入时，如果超过设置的时间，则不再显示已读回执的按钮。
+ */
+@property (nonatomic, assign) NSUInteger maxReadRequestDuration;
+
+/*!
+ 是否开启多端同步未读状态的功能，默认值是 YES
 
  @discussion 开启之后，用户在其他端上阅读过的消息，当前客户端会清掉该消息的未读数。目前仅支持单聊、群聊、讨论组。
  */
 @property (nonatomic, assign) BOOL enableSyncReadStatus;
 
 /*!
- 是否开启消息@提醒功能（只支持群聊和讨论组, App需要实现群成员数据源groupMemberDataSource），默认值是NO。
+ 是否开启消息@提醒功能（只支持群聊和讨论组, App需要实现群成员数据源groupMemberDataSource），默认值是 YES。
  */
 @property (nonatomic, assign) BOOL enableMessageMentioned;
 
 /*!
- 是否开启消息撤回功能，默认值是NO。
+ 是否开启消息撤回功能，默认值是 YES。
  */
 @property (nonatomic, assign) BOOL enableMessageRecall;
 
@@ -767,7 +774,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 @property (nonatomic, assign) NSUInteger maxRecallDuration;
 
 /*!
- 是否在会话页面和会话列表界面显示未注册的消息类型，默认值是NO
+ 是否在会话页面和会话列表界面显示未注册的消息类型，默认值是 YES
 
  @discussion App不断迭代开发，可能会在以后的新版本中不断增加某些自定义类型的消息，但是已经发布的老版本无法识别此类消息。
  针对这种情况，可以预先定义好未注册的消息的显示，以提升用户体验（如提示当前版本不支持，引导用户升级版本等）
@@ -784,8 +791,10 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
  针对这种情况，可以预先定义好未注册的消息的显示，以提升用户体验（如提示当前版本不支持，引导用户升级版本等）
 
  未注册的消息，可以通过修改unknown_message_notification_tip字符串资源定制本地通知的显示。
+
+ @warning **已废弃，请勿使用。**
  */
-@property (nonatomic, assign) BOOL showUnkownMessageNotificaiton;
+@property (nonatomic, assign) BOOL showUnkownMessageNotificaiton __deprecated_msg("已废弃，请勿使用");
 
 /*!
  语音消息的最大长度

@@ -37,6 +37,9 @@ static CGFloat CELL_WIDTH = 0;
          referenceExtraHeight:(CGFloat)extraHeight {
 
     CGFloat __messagecontentview_height = 89;
+    if (__messagecontentview_height < [RCIM sharedRCIM].globalMessagePortraitSize.height) {
+        __messagecontentview_height = [RCIM sharedRCIM].globalMessagePortraitSize.height;
+    }
     __messagecontentview_height += extraHeight;
     float screenRatio = 0.637;
     if (collectionViewWidth <= 320) {
@@ -244,7 +247,8 @@ static CGFloat CELL_WIDTH = 0;
     if (self.model.messageDirection == MessageDirection_RECEIVE && cardMessage.destructDuration > 0 &&
         [UIApplication sharedApplication].applicationState != UIApplicationStateBackground &&
         self.isConversationAppear) {
-        [[RCIMClient sharedRCIMClient] messageBeginDestruct:self.model.messageUId];
+        [[RCIMClient sharedRCIMClient]
+            messageBeginDestruct:[[RCIMClient sharedRCIMClient] getMessageByUId:self.model.messageUId]];
     }
 }
 
