@@ -270,4 +270,45 @@
  */
 + (UIImage *)fixOrientation:(UIImage *)image;
 
+/**
+判断当前设备是否是 iPad
+*/
++ (BOOL)currentDeviceIsIPad;
+
+/**
+在 controller 弹出弹窗
+
+@param title title
+@param message message
+@param style 弹窗的风格
+@param actions UIAlertAction 的数组
+@param controller 用哪个页面弹出
+*/
++ (void)showAlertController:(NSString *)title
+                    message:(NSString *)message
+             preferredStyle:(UIAlertControllerStyle)style
+                    actions:(NSArray<UIAlertAction *> *)actions
+           inViewController:(UIViewController *)controller;
+
+/**
+动态颜色设置
+
+ @param lightColor  亮色
+ @param darkColor  暗色
+ @return 修正后的图片
+*/
++ (UIColor *)generateDynamicColor:(UIColor *)lightColor darkColor:(UIColor *)darkColor;
+
+/**
+根据图片消息的 imageUrl 判断图片是否加载
+*/
++ (BOOL)hasLoadedImage:(NSString *)imageUrl;
+
+/**
+根据图片消息的 imageUrl 获取已下载的图片 data
+
+ @param imageUrl  图片消息的 imageUrl
+ @return 图片 data
+*/
++ (NSData *)getImageDataForURLString:(NSString *)imageUrl;
 @end

@@ -45,8 +45,7 @@
     if (conversationType == ConversationType_PRIVATE || conversationType == ConversationType_GROUP ||
         conversationType == ConversationType_Encrypted) {
         RCExtensionPluginItemInfo *cardItem = [[RCExtensionPluginItemInfo alloc] init];
-        cardItem.image = [RCKitUtility imageNamed:@"card.png" ofBundle:@"RongCloud.bundle"];
-        ;
+        cardItem.image = [RCKitUtility imageNamed:@"card" ofBundle:@"RongCloud.bundle"];
         cardItem.title = NSLocalizedStringFromTable(@"ContactCard", @"RongCloudKit", nil);
         cardItem.tag = PLUGIN_BOARD_ITEM_CARD_TAG;
         cardItem.tapBlock = ^(RCChatSessionInputBarControl *chatSessionInputBar) {

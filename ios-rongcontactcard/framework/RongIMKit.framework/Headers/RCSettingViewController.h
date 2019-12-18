@@ -39,9 +39,9 @@ typedef void (^clearHistory)(BOOL isSuccess);
 @property (nonatomic, copy) clearHistory clearHistoryCompletion;
 
 /*!
- 清空会话中所有消息的ActionSheet
+ 清空会话中所有消息的 AlertController
  */
-@property (nonatomic, readonly, strong) UIActionSheet *clearMsgHistoryActionSheet;
+@property (nonatomic, readonly, strong) UIAlertController *clearMsgHistoryAlertController;
 
 /*!
  清空会话中所有消息

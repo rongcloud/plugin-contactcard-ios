@@ -146,7 +146,12 @@ typedef NS_ENUM(NSUInteger, RCConversationModelType) {
 /*!
  会话中有被提及的消息（有@你的消息）
  */
-@property (nonatomic, assign) BOOL hasUnreadMentioned;
+@property (nonatomic, assign, readonly) BOOL hasUnreadMentioned;
+
+/*!
+会话中有被@的消息数量
+*/
+@property (nonatomic, assign) int mentionedCount;
 
 /*!
  初始化会话Cell的数据模型（已废弃，请勿使用）

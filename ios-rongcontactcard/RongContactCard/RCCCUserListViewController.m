@@ -15,7 +15,7 @@
 #import "RCSendCardMessageView.h"
 #import "RCCCUtilities.h"
 #import "RCContactCardKit.h"
-
+#import <RongIMKit/RCKitUtility.h>
 @interface RCCCUserListViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate,
                                           UISearchDisplayDelegate>
 
@@ -139,11 +139,20 @@
         _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
         [_searchBar sizeToFit];
         [_searchBar setPlaceholder:NSLocalizedStringFromTable(@"ToSearch", @"RongCloudKit", nil)];
-        [_searchBar.layer setBorderWidth:0.5];
-        [_searchBar.layer
-            setBorderColor:[UIColor colorWithRed:229.0 / 255 green:229.0 / 255 blue:229.0 / 255 alpha:1].CGColor];
         [_searchBar setDelegate:self];
         [_searchBar setKeyboardType:UIKeyboardTypeDefault];
+        if (@available(iOS 13.0, *)) {
+            _searchBar.searchTextField.backgroundColor =
+                [RCKitUtility generateDynamicColor:[UIColor whiteColor]
+                                         darkColor:[UIColor colorWithHexString:@"262626" alpha:0.6]];
+        }
+        //设置顶部搜索栏的背景色
+        _searchBar.barTintColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"f0f0f6" alpha:0.6]
+                                                           darkColor:[UIColor blackColor]];
+        _searchBar.layer.borderColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"f0f0f6" alpha:1]
+                                                                darkColor:[UIColor blackColor]]
+                                           .CGColor;
+        _searchBar.layer.borderWidth = 1;
     }
     return _searchBar;
 }
@@ -154,8 +163,10 @@
                     style:UITableViewStylePlain];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
-        _tableView.backgroundColor = [UIColor colorWithHexString:@"f0f0f6" alpha:1.f];
-        _tableView.separatorColor = [UIColor colorWithHexString:@"dfdfdf" alpha:1.f];
+        _tableView.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"f0f0f6" alpha:1]
+                                                              darkColor:[UIColor colorWithHexString:@"000000" alpha:1]];
+        _tableView.separatorColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"dfdfdf" alpha:1]
+                                                             darkColor:[UIColor colorWithHexString:@"1a1a1a" alpha:1]];
         _tableView.tableHeaderView = self.searchBar;
         // cell无数据时，不显示间隔线
         UIView *v = [[UIView alloc] initWithFrame:CGRectZero];

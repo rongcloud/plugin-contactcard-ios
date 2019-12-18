@@ -33,14 +33,14 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
     /*!
      连接已被释放
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_NET_CHANNEL_INVALID = 30001,
 
     /*!
      连接不可用
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_NET_UNAVAILABLE = 30002,
 
@@ -48,77 +48,77 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
      导航HTTP发送失败
 
      @discussion 如果是偶尔出现此错误，SDK会做好自动重连，开发者无须处理。如果一直是这个错误，应该是您没有设置好ATS。
-     ATS默认只使用HTTPS协议，当HTTP协议被禁止时SDK会一直30004错误。您可以在我们iOS开发文档中搜索到ATS设置。
+     ATS默认只使用HTTPS协议，当HTTP协议被禁止时SDK会一直30004错误。您可以参考iOS开发文档中的ATS设置说明。链接如下：https://support.rongcloud.cn/ks/OTQ1
      */
     RC_NAVI_REQUEST_FAIL = 30004,
 
     /*!
      导航HTTP请求失败
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_NAVI_RESPONSE_ERROR = 30007,
 
     /*!
      导航HTTP返回数据格式错误
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_NODE_NOT_FOUND = 30008,
 
     /*!
      创建Socket连接失败
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_SOCKET_NOT_CONNECTED = 30010,
 
     /*!
      Socket断开
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_SOCKET_DISCONNECTED = 30011,
 
     /*!
      PING失败
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_PING_SEND_FAIL = 30012,
 
     /*!
      PING超时
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_PONG_RECV_FAIL = 30013,
 
     /*!
      信令发送失败
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_MSG_SEND_FAIL = 30014,
 
     /*!
      连接过于频繁
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_CONN_OVERFREQUENCY = 30015,
 
     /*!
      连接ACK超时
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_CONN_ACK_TIMEOUT = 31000,
 
     /*!
      信令版本错误
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_CONN_PROTO_VERSION_ERROR = 31001,
 
@@ -132,7 +132,7 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
     /*!
      服务器当前不可用（预留）
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_CONN_SERVER_UNAVAILABLE = 31003,
 
@@ -158,7 +158,7 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
     /*!
      连接重定向
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_CONN_REDIRECTED = 31006,
 
@@ -172,7 +172,7 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
     /*!
      AppKey被封禁或已删除
 
-     @discussion 请检查您使用的AppKey是否正确。
+     @discussion 请检查您使用的AppKey是否被封禁或已删除。
      */
     RC_CONN_APP_BLOCKED_OR_DELETED = 31008,
 
@@ -184,19 +184,23 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
     RC_CONN_USER_BLOCKED = 31009,
 
     /*!
-     当前用户在其他设备上登录，此设备被踢下线
+     用户被踢下线
+     
+      @discussion 当前用户在其他设备上登录，此设备被踢下线
      */
     RC_DISCONN_KICK = 31010,
 
     /*!
-     重连过程中当前用户在其它设备上登录
+     用户在其它设备上登录
+     
+      @discussion 重连过程中当前用户在其它设备上登录
      */
     RC_CONN_OTHER_DEVICE_LOGIN = 31023,
 
     /*!
      连接被拒绝
 
-     @discussion 建立连接的临时错误码，SDK会做好自动重连，开发者无须处理。
+     @discussion 连接相关的错误码，SDK会做好自动重连，开发者无须处理。
      */
     RC_CONN_REFUSED = 32061,
 
@@ -241,7 +245,7 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     ERRORCODE_UNKNOWN = -1,
 
     /*!
-     已被对方加入黑名单
+     已被对方加入黑名单，消息发送失败。
      */
     REJECTED_BY_BLACKLIST = 405,
 
@@ -256,32 +260,32 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     SEND_MSG_FREQUENCY_OVERRUN = 20604,
 
     /*!
-     不在该讨论组中
+     当前用户不在该讨论组中
      */
     NOT_IN_DISCUSSION = 21406,
 
     /*!
-     不在该群组中
+     当前用户不在该群组中
      */
     NOT_IN_GROUP = 22406,
 
     /*!
-     在群组中已被禁言
+     当前用户在群组中已被禁言
      */
     FORBIDDEN_IN_GROUP = 22408,
 
     /*!
-     不在该聊天室中
+     当前用户不在该聊天室中
      */
     NOT_IN_CHATROOM = 23406,
 
     /*!
-     在该聊天室中已被禁言
+     当前用户在该聊天室中已被禁言
      */
     FORBIDDEN_IN_CHATROOM = 23408,
 
     /*!
-     已被踢出并禁止加入聊天室
+     当前用户已被踢出并禁止加入聊天室。被禁止的时间取决于服务端调用踢出接口时传入的时间。
      */
     KICKED_FROM_CHATROOM = 23409,
 
@@ -296,7 +300,7 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     RC_CHATROOM_IS_FULL = 23411,
 
     /*!
-     聊天室接口参数无效
+     聊天室接口参数无效。请确认参数是否为空或者有效。
      */
     RC_PARAMETER_INVALID_CHATROOM = 23412,
 
@@ -306,32 +310,32 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     RC_ROAMING_SERVICE_UNAVAILABLE_CHATROOM = 23414,
 
     /*!
-     超过聊天室的最大 KV 设置数，1 个聊天室默认最多设置 100 个
+     超过聊天室的最大状态设置数，1 个聊天室默认最多设置 100 个
      */
     RC_EXCCED_MAX_KV_SIZE = 23423,
 
     /*!
-     聊天室中非法覆盖 KEY 值（key 已存在，没有权限覆盖）
+     聊天室中非法覆盖状态值，状态已存在，没有权限覆盖
      */
     RC_TRY_OVERWRITE_INVALID_KEY = 23424,
 
     /*!
-     超聊天室中 KV 设置频率，1 个聊天室 1 秒钟最多操作（设置和删除）KV 100 次
+     超过聊天室中状态设置频率，1 个聊天室 1 秒钟最多设置和删除状态 100 次
      */
     RC_EXCCED_MAX_CALL_API_SIZE = 23425,
 
     /*!
-     聊天室 KV 功能没有开通，请联系商务开通
+     聊天室状态存储功能没有开通，请联系商务开通
      */
     RC_KV_STORE_NOT_AVAILABLE = 23426,
 
     /*!
-     聊天室 Key 不存在
+     聊天室状态值不存在
     */
     RC_KEY_NOT_EXIST = 23427,
 
     /*!
-     聊天室 KV 未同步完成（本地数据和服务器未同步完成）
+     聊天室状态未同步完成，本地数据和服务器未同步完成
      */
     RC_KV_STORE_NOT_SYNC = 34004,
 
@@ -346,7 +350,7 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     RC_NETWORK_UNAVAILABLE = 30002,
 
     /*!
-     消息响应超时
+     客户端发送消息请求，融云服务端响应超时。
      */
     RC_MSG_RESPONSE_TIMEOUT = 30003,
 
@@ -359,8 +363,8 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
 
     /*!
      数据库错误
-
-     @discussion 请检查您使用的Token和userId是否正确。
+     
+     @discussion 数据库路径中包含 userId，如果您获取 token 时传入的 userId 包含特殊字符，有可能导致该错误。userId 支持大小写英文字母、数字、部分特殊符号 + = - _ 的组合方式，最大长度 64 字节。
      */
     DATABASE_ERROR = 33002,
 
@@ -372,7 +376,7 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     INVALID_PARAMETER = 33003,
 
     /*!
-     历史消息云存储业务未开通
+     历史消息云存储业务未开通。可以在融云开发者后台中开启该服务。
      */
     MSG_ROAMING_SERVICE_UNAVAILABLE = 33007,
 
@@ -386,21 +390,23 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     RC_MSG_SIZE_OUT_OF_LIMIT = 30016,
 
     /*!
-    撤回消息参数无效。
-    */
+    撤回消息参数无效。请确认撤回消息参数是否正确的填写。
+     */
     RC_RECALLMESSAGE_PARAMETER_INVALID = 25101,
+    
     /*!
-    push设置参数无效。
-    */
+    push 设置参数无效。请确认是否正确的填写了 push 参数。
+     */
     RC_PUSHSETTING_PARAMETER_INVALID = 26001,
+    
     /*!
-    操作被禁止。
-    */
+    操作被禁止。 此错误码已被弃用。
+     */
     RC_OPERATION_BLOCKED = 20605,
 
     /*!
-    操作不支持。
-    */
+    操作不支持。仅私有云有效，服务端禁用了该操作。
+     */
     RC_OPERATION_NOT_SUPPORT = 20606,
 
     /*!
@@ -414,12 +420,12 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     RC_MSG_REPLACED_SENSITIVE_WORD = 21502,
 
     /*!
-     小视频消息超限
+     小视频时间长度超出限制，默认小视频时长上限为 2 分钟
      */
     RC_SIGHT_MSG_DURATION_LIMIT_EXCEED = 34002,
 
     /*!
-     GIF 消息大小超限
+     GIF 消息文件大小超出限制， 默认 GIF 文件大小上限是 2 MB
      */
     RC_GIF_MSG_SIZE_LIMIT_EXCEED = 34003,
 
@@ -564,16 +570,6 @@ typedef NS_ENUM(NSUInteger, RCNetworkStatus) {
      移动网络
      */
     RC_ReachableViaWWAN = 2,
-
-    //    /*!
-    //     当前处于3G网络
-    //     */
-    //    RC_ReachableVia3G = 3,
-    //
-    //    /*!
-    //     当前处于2G网络
-    //     */
-    //    RC_ReachableVia2G = 4
 };
 
 #pragma mark RCSDKRunningMode - SDK当前所处的状态
@@ -634,7 +630,8 @@ typedef NS_ENUM(NSUInteger, RCConversationType) {
 
      @discussion
      客服2.0使用应用内公众服务会话（ConversationType_APPSERVICE）的方式实现。
-     即客服2.0会话是其中一个应用内公众服务会话，这种方式我们目前不推荐，请尽快升级到新客服，升级方法请参考官网的客服文档。
+     即客服2.0会话是其中一个应用内公众服务会话，这种方式我们目前不推荐，请尽快升级到新客服，升级方法请参考官网的客服文档。文档链接
+     https://docs.rongcloud.cn/services/public/app/prepare/
      */
     ConversationType_APPSERVICE = 7,
 
@@ -652,7 +649,6 @@ typedef NS_ENUM(NSUInteger, RCConversationType) {
      加密会话（仅对部分私有云用户开放，公有云用户不适用）
      */
     ConversationType_Encrypted = 11,
-
     /**
      * RTC 会话
      */
@@ -672,6 +668,7 @@ typedef NS_ENUM(NSUInteger, RCConversationType) {
 typedef NS_ENUM(NSUInteger, RCConversationNotificationStatus) {
     /*!
      免打扰
+     
      */
     DO_NOT_DISTURB = 0,
 

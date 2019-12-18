@@ -9,7 +9,7 @@
 #import "RCCCContactTableViewCell.h"
 #import "UIColor+RCCCColor.h"
 #import "RCCCUtilities.h"
-
+#import <RongIMKit/RCKitUtility.h>
 @interface RCCCContactTableViewCell ()
 
 @end
@@ -20,7 +20,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self initialize];
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ffffff" alpha:1]
+                                                        darkColor:[UIColor colorWithHexString:@"1c1c1e" alpha:0.4]];
     }
     return self;
 }
@@ -29,7 +30,8 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self initialize];
-        self.backgroundColor = [UIColor whiteColor];
+        self.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ffffff" alpha:1]
+                                                        darkColor:[UIColor colorWithHexString:@"1c1c1e" alpha:0.4]];
     }
     return self;
 }
@@ -52,13 +54,15 @@
     _nicknameLabel = [[UILabel alloc] init];
     _nicknameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_nicknameLabel setFont:[UIFont fontWithName:@"Heiti SC" size:15.0]];
-    _nicknameLabel.textColor = [UIColor colorWithHexString:@"000000" alpha:1.0];
+    _nicknameLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1]
+                                                        darkColor:[UIColor colorWithHexString:@"9f9f9f" alpha:1]];
     [self.contentView addSubview:_nicknameLabel];
 
     _userIdLabel = [[UILabel alloc] init];
     _userIdLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_userIdLabel setFont:[UIFont fontWithName:@"Heiti SC" size:15.0]];
-    _userIdLabel.textColor = [UIColor colorWithHexString:@"000000" alpha:1.0];
+    _userIdLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1]
+                                                      darkColor:[UIColor colorWithHexString:@"9f9f9f" alpha:1]];
     [self.contentView addSubview:_userIdLabel];
 
     NSDictionary *views = NSDictionaryOfVariableBindings(_portraitView, _nicknameLabel, _userIdLabel);

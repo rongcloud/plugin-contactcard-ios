@@ -1186,4 +1186,9 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
  */
 @property (nonatomic, assign) BOOL enableBurnMessage;
 
+/*!
+是否支持暗黑模式，默认值是NO，开启之后 UI 支持暗黑模式，可以跟随系统切换
+*/
+@property (nonatomic, assign) BOOL enableDarkMode;
+
 @end

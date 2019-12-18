@@ -11,7 +11,7 @@
 #import "RCTextView.h"
 #import <RongIMLib/RongIMLib.h>
 #import <UIKit/UIKit.h>
-
+@class RCButton;
 #define RC_ChatSessionInputBar_Height 49.5f
 ///输入栏扩展输入的唯一标示
 #define INPUT_MENTIONED_SELECT_TAG 1000
@@ -213,7 +213,7 @@ typedef NS_ENUM(NSInteger, KBottomBarStatus) {
 /*!
  客服机器人转人工切换的按钮
  */
-@property (strong, nonatomic) UIButton *robotSwitchButton;
+@property (strong, nonatomic) RCButton *robotSwitchButton;
 
 /*!
  容器View
@@ -228,12 +228,12 @@ typedef NS_ENUM(NSInteger, KBottomBarStatus) {
 /*!
  语音与文本输入切换的按钮
  */
-@property (strong, nonatomic) UIButton *switchButton;
+@property (strong, nonatomic) RCButton *switchButton;
 
 /*!
  录制语音消息的按钮
  */
-@property (strong, nonatomic) UIButton *recordButton;
+@property (strong, nonatomic) RCButton *recordButton;
 
 /*!
  文本输入框
@@ -243,12 +243,12 @@ typedef NS_ENUM(NSInteger, KBottomBarStatus) {
 /*!
  表情的按钮
  */
-@property (strong, nonatomic) UIButton *emojiButton;
+@property (strong, nonatomic) RCButton *emojiButton;
 
 /*!
  扩展输入的按钮
  */
-@property (strong, nonatomic) UIButton *additionalButton;
+@property (strong, nonatomic) RCButton *additionalButton;
 
 /*!
  所处的会话页面View

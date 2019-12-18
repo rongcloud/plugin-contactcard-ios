@@ -89,12 +89,15 @@ static CGFloat CELL_WIDTH = 0;
     [self.nameLabel setFont:[UIFont systemFontOfSize:16.f]];
     [self.bubbleBackgroundView addSubview:self.nameLabel];
     self.nameLabel.translatesAutoresizingMaskIntoConstraints = YES;
-    self.nameLabel.textColor = [UIColor colorWithHexString:@"262626" alpha:1.f];
+    self.nameLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"262626" alpha:1]
+                                                        darkColor:[UIColor colorWithHexString:@"e0e0e0" alpha:1]];
     self.nameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
 
     //分割线
     self.separationView = [[UIView alloc] initWithFrame:CGRectMake(16, 12 + 45 + 12, CELL_WIDTH - 12 * 2, 0.5)];
-    self.separationView.backgroundColor = [UIColor colorWithHexString:@"ededed" alpha:1.f];
+    self.separationView.backgroundColor =
+        [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ededed" alpha:1]
+                                 darkColor:[UIColor colorWithHexString:@"3a3a3a" alpha:1]];
     self.separationView.translatesAutoresizingMaskIntoConstraints = YES;
     [self.bubbleBackgroundView addSubview:self.separationView];
 
