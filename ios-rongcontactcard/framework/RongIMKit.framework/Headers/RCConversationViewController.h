@@ -705,6 +705,15 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
 - (void)didTapUrlInMessageCell:(NSString *)url model:(RCMessageModel *)model;
 
 /*!
+ 点击撤回消息Cell中重新编辑的回调
+
+ @param model 消息Cell的数据模型
+
+ @discussion 点击撤回消息Cell中重新编辑，会调用此回调，不会再触发didTapMessageCell:。
+ */
+- (void)didTapReedit:(RCMessageModel *)model;
+
+/*!
  点击Cell中电话号码的回调
 
  @param phoneNumber 点击的电话号码

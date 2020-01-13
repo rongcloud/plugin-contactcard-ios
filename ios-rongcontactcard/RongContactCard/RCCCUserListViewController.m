@@ -324,7 +324,7 @@
     cardUserInfo.portraitUri = user.portraitUri;
     sendCardView.cardUserInfo = cardUserInfo;
     [sendCardView setConversationType:self.conversationType targetId:self.targetId];
-    [[UIApplication sharedApplication].delegate.window addSubview:sendCardView];
+    [[RCKitUtility getKeyWindow] addSubview:sendCardView];
 }
 
 - (void)didReceiveMemoryWarning {

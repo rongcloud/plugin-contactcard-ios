@@ -34,7 +34,7 @@
     userInfo.portraitUri = cardUserInfo.portraitUri;
     sendCardView.cardUserInfo = userInfo;
     sendCardView.targetUserInfo = targetUserInfo;
-    [[UIApplication sharedApplication].delegate.window addSubview:sendCardView];
+    [[RCKitUtility getKeyWindow] addSubview:sendCardView];
 }
 
 /**
@@ -61,7 +61,7 @@
     sendCardView.targetId = targetId;
     sendCardView.conversationType = conversationType;
     sendCardView.destructDuration = destructDuration;
-    [[UIApplication sharedApplication].delegate.window addSubview:sendCardView];
+    [[RCKitUtility getKeyWindow] addSubview:sendCardView];
 }
 
 - (void)popupSendContactCardView:(RCCCUserInfo *)cardUserInfo targetGroupInfo:(RCCCGroupInfo *)targetGroupInfo {
@@ -72,7 +72,7 @@
     userInfo.portraitUri = cardUserInfo.portraitUri;
     sendCardView.cardUserInfo = userInfo;
     sendCardView.targetgroupInfo = targetGroupInfo;
-    [[UIApplication sharedApplication].delegate.window addSubview:sendCardView];
+    [[RCKitUtility getKeyWindow] addSubview:sendCardView];
 }
 
 @end

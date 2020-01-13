@@ -256,6 +256,13 @@
 + (BOOL)validateEmail:(NSString *)email;
 
 /**
+获取 keyWindow
+
+@return UIWindow
+*/
++ (UIWindow *)getKeyWindow;
+
+/**
  获取 AppDelegate window 的 safeAreaInsets
 
  @return AppDelegate window 的 safeAreaInsets

@@ -741,12 +741,15 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
  开启已读回执功能的会话类型，默认为 单聊、群聊和讨论组
 
  @discussion 这些会话类型的消息在会话页面显示了之后会发送已读回执。目前仅支持单聊、群聊和讨论组。
+
+ OC 需转成 NSNumber 传入（例如 @[ @(ConversationType_PRIVATE) ]），
+ Swift 需获取到 rawValue 传入（例如 [ RCConversationType.ConversationType_PRIVATE.rawValue ]）。
  */
 @property (nonatomic, copy) NSArray *enabledReadReceiptConversationTypeList;
 
 /*!
  设置群组、讨论组发送已读回执请求的有效时间，单位是秒，默认值是 120s。
- 
+
  @discussion 用户在群组或讨论组中发送消息，退出会话页面再次进入时，如果超过设置的时间，则不再显示已读回执的按钮。
  */
 @property (nonatomic, assign) NSUInteger maxReadRequestDuration;
@@ -1156,7 +1159,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
  @param moduleName  Extension module name
 
  @discussion
- 有些第三方扩展（比如红包）需要打开其他应用（比如使用支付宝进行支付），然后等待返回结果。因此首先要为第三方扩展设置一个URL
+ 有些第三方扩展需要打开其他应用（比如使用支付宝进行支付），然后等待返回结果。因此首先要为第三方扩展设置一个URL
  scheme并加入到info.plist中，然后再告诉该扩展模块scheme。
  */
 - (void)setScheme:(NSString *)scheme forExtensionModule:(NSString *)moduleName;
@@ -1190,5 +1193,12 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 是否支持暗黑模式，默认值是NO，开启之后 UI 支持暗黑模式，可以跟随系统切换
 */
 @property (nonatomic, assign) BOOL enableDarkMode;
+
+/*!
+ 消息撤回后可重新编辑的时间，单位是秒，默认值是 300s。
+
+ @discussion 目前消息撤回后重新编辑仅为本地操作，卸载重装或者更换设备不会同步。
+ */
+@property (nonatomic, assign) NSUInteger reeditDuration;
 
 @end

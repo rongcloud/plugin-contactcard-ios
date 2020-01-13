@@ -127,6 +127,8 @@ typedef void (^OnPoiSearchResult)(NSArray *pois, BOOL clearPreviousResult, BOOL 
  */
 - (void)setMapViewCoordinateRegion:(MKCoordinateRegion)coordinateRegion animated:(BOOL)animated;
 
+- (void)didUpdateUserLocation;
+
 /*!
  选择位置标示
 
