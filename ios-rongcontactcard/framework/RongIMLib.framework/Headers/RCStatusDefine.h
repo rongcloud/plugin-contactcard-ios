@@ -185,14 +185,14 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
 
     /*!
      用户被踢下线
-     
+
       @discussion 当前用户在其他设备上登录，此设备被踢下线
      */
     RC_DISCONN_KICK = 31010,
 
     /*!
      用户在其它设备上登录
-     
+
       @discussion 重连过程中当前用户在其它设备上登录
      */
     RC_CONN_OTHER_DEVICE_LOGIN = 31023,
@@ -225,6 +225,13 @@ typedef NS_ENUM(NSInteger, RCConnectErrorCode) {
      调用过connect之后，只有在token错误或者被踢下线或者用户logout的情况下才需要再次调用connect。SDK会自动重连，不需要应用多次调用connect来保证连接性。
      */
     RC_CONNECTION_EXIST = 34001,
+
+    /*!
+     连接环境不正确（融云公有云 SDK 无法连接到私有云环境）
+
+     @discussion 融云公有云 SDK 无法连接到私有云环境。请确认需要连接的环境，使用正确 SDK 版本。
+     */
+    RC_ENVIRONMENT_ERROR = 34005,
 
     /*!
      开发者接口调用时传入的参数错误
@@ -295,7 +302,8 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     RC_CHATROOM_NOT_EXIST = 23410,
 
     /*!
-     聊天室成员超限，默认聊天室成员没有人数限制，但是开发者可以提交工单申请针对 App Key 进行聊天室人数限制，在限制人数的情况下，调用加入聊天室的接口时人数超限，就会返回此错误码
+     聊天室成员超限，默认聊天室成员没有人数限制，但是开发者可以提交工单申请针对 App Key
+     进行聊天室人数限制，在限制人数的情况下，调用加入聊天室的接口时人数超限，就会返回此错误码
      */
     RC_CHATROOM_IS_FULL = 23411,
 
@@ -363,8 +371,9 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
 
     /*!
      数据库错误
-     
-     @discussion 数据库路径中包含 userId，如果您获取 token 时传入的 userId 包含特殊字符，有可能导致该错误。userId 支持大小写英文字母、数字、部分特殊符号 + = - _ 的组合方式，最大长度 64 字节。
+
+     @discussion 数据库路径中包含 userId，如果您获取 token 时传入的 userId 包含特殊字符，有可能导致该错误。userId
+     支持大小写英文字母、数字、部分特殊符号 + = - _ 的组合方式，最大长度 64 字节。
      */
     DATABASE_ERROR = 33002,
 
@@ -393,12 +402,12 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     撤回消息参数无效。请确认撤回消息参数是否正确的填写。
      */
     RC_RECALLMESSAGE_PARAMETER_INVALID = 25101,
-    
+
     /*!
     push 设置参数无效。请确认是否正确的填写了 push 参数。
      */
     RC_PUSHSETTING_PARAMETER_INVALID = 26001,
-    
+
     /*!
     操作被禁止。 此错误码已被弃用。
      */
@@ -668,7 +677,7 @@ typedef NS_ENUM(NSUInteger, RCConversationType) {
 typedef NS_ENUM(NSUInteger, RCConversationNotificationStatus) {
     /*!
      免打扰
-     
+
      */
     DO_NOT_DISTURB = 0,
 

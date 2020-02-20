@@ -907,12 +907,17 @@ deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远�
  @param progressBlock       文件下载进度更新的回调 [progress:当前的下载进度, 0 <= progress <= 100]
  @param successBlock        下载成功的回调[mediaPath:下载成功后本地存放的文件路径 文件路径为文件消息的默认地址]
  @param errorBlock          下载失败的回调[errorCode:下载失败的错误码]
+ 
+ @warning  **已废弃，请勿使用。**
+ 升级说明：如果您之前使用了此接口，可以直接替换为downloadMediaFile:mediaUrl:progress:success:error:cancel:接口 行为和实现完全一致。
+
   */
 - (void)downloadMediaFile:(NSString *)fileName
                  mediaUrl:(NSString *)mediaUrl
                  progress:(void (^)(int progress))progressBlock
                   success:(void (^)(NSString *mediaPath))successBlock
-                    error:(void (^)(RCErrorCode errorCode))errorBlock;
+                    error:(void (^)(RCErrorCode errorCode))errorBlock __deprecated_msg("已废弃，请勿使用。");
+
 /*!
  下载消息内容中的媒体信息
 
@@ -925,6 +930,10 @@ deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远�
  @param successBlock        下载成功的回调
  [mediaPath:下载成功后本地存放的文件路径]
  @param errorBlock          下载失败的回调[errorCode:下载失败的错误码]
+ 
+ @warning  **已废弃，请勿使用。**
+ 升级说明：如果您之前使用了此接口，可以直接替换为downloadMediaFile:targetId:mediaType:mediaUrl:progress:success:error:cancel:接口 行为和实现完全一致。
+
  */
 - (void)downloadMediaFile:(RCConversationType)conversationType
                  targetId:(NSString *)targetId
@@ -932,7 +941,49 @@ deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远�
                  mediaUrl:(NSString *)mediaUrl
                  progress:(void (^)(int progress))progressBlock
                   success:(void (^)(NSString *mediaPath))successBlock
-                    error:(void (^)(RCErrorCode errorCode))errorBlock;
+                    error:(void (^)(RCErrorCode errorCode))errorBlock __deprecated_msg("已废弃，请勿使用。");
+
+/*!
+ 根据文件URL地址下载文件内容
+
+ @param fileName            指定的文件名称 需要开发者指定文件后缀 (例如 rongCloud.mov)
+ @param mediaUrl            文件的URL地址
+ @param progressBlock       文件下载进度更新的回调 [progress:当前的下载进度, 0 <= progress <= 100]
+ @param successBlock        下载成功的回调[mediaPath:下载成功后本地存放的文件路径 文件路径为文件消息的默认地址]
+ @param errorBlock          下载失败的回调[errorCode:下载失败的错误码]
+ @param cancelBlock         用户取消了下载的回调
+
+*/
+- (void)downloadMediaFile:(NSString *)fileName
+                 mediaUrl:(NSString *)mediaUrl
+                 progress:(void (^)(int progress))progressBlock
+                  success:(void (^)(NSString *mediaPath))successBlock
+                    error:(void (^)(RCErrorCode errorCode))errorBlock
+                   cancel:(void (^)(void))cancelBlock;
+
+/*!
+ 下载消息内容中的媒体信息
+
+ @param conversationType    消息的会话类型
+ @param targetId            消息的目标会话ID
+ @param mediaType           消息内容中的多媒体文件类型，目前仅支持图片
+ @param mediaUrl            多媒体文件的网络URL
+ @param progressBlock       消息下载进度更新的回调 [progress:当前的下载进度, 0
+ <= progress <= 100]
+ @param successBlock        下载成功的回调
+ [mediaPath:下载成功后本地存放的文件路径]
+ @param errorBlock          下载失败的回调[errorCode:下载失败的错误码]
+ @param cancelBlock         用户取消了下载的回调
+
+ */
+- (void)downloadMediaFile:(RCConversationType)conversationType
+                 targetId:(NSString *)targetId
+                mediaType:(RCMediaType)mediaType
+                 mediaUrl:(NSString *)mediaUrl
+                 progress:(void (^)(int progress))progressBlock
+                  success:(void (^)(NSString *mediaPath))successBlock
+                    error:(void (^)(RCErrorCode errorCode))errorBlock
+                   cancel:(void (^)(void))cancelBlock;
 
 /*!
  下载消息内容中的媒体信息
@@ -957,6 +1008,15 @@ deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远�
  @return YES表示取消成功，NO表示取消失败，即已经下载完成或者消息不存在。
  */
 - (BOOL)cancelDownloadMediaMessage:(long)messageId;
+
+/*!
+取消下载中的媒体信息
+
+@param mediaUrl 媒体消息Url
+
+@return YES表示取消成功，NO表示取消失败，即已经下载完成或者消息不存在。
+*/
+- (BOOL)cancelDownloadMediaUrl:(NSString *)mediaUrl;
 
 ///*!
 // 发送状态消息
