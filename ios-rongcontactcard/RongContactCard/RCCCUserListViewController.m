@@ -63,9 +63,22 @@
                                                object:nil];
 }
 
-- (void)viewDidLayoutSubviews {
-    self.searchBar.frame = CGRectMake(0, 0, self.view.bounds.size.width, 44);
-    self.tableView.frame = CGRectMake(0.0, 0.0, self.view.bounds.size.width, self.view.bounds.size.height);
+- (void)viewWillTransitionToSize:(CGSize)size
+       withTransitionCoordinator:(id<UIViewControllerTransitionCoordinator>)coordinator {
+
+    [super viewWillTransitionToSize:size withTransitionCoordinator:coordinator];
+
+    [coordinator animateAlongsideTransition:^(id<UIViewControllerTransitionCoordinatorContext> context) {
+        [self layoutSubview:size];
+    }
+        completion:^(id<UIViewControllerTransitionCoordinatorContext> context){
+
+        }];
+}
+
+- (void)layoutSubview:(CGSize)size {
+    self.searchBar.frame = CGRectMake(0, 0, size.width, 44);
+    self.tableView.frame = CGRectMake(0.0, 0.0, size.width, size.height);
 }
 
 #pragma mark - 获取好友并且排序

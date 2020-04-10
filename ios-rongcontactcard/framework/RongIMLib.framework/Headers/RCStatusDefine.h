@@ -343,7 +343,8 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
     RC_KEY_NOT_EXIST = 23427,
 
     /*!
-     聊天室状态未同步完成，本地数据和服务器未同步完成
+     聊天室状态未同步完成
+     刚加入聊天室时调用获取 KV 接口，极限情况下会存在本地数据和服务器未同步完成的情况，建议延时一段时间再获取
      */
     RC_KV_STORE_NOT_SYNC = 34004,
 

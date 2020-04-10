@@ -15,7 +15,7 @@
 #import "RCPluginBoardView.h"
 #import "RCThemeDefine.h"
 #import <UIKit/UIKit.h>
-
+#import "RCReferencingView.h"
 /*!
  客服服务状态
  */
@@ -174,6 +174,12 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
  @discussion 可以自定义显示会话页面的view。
  */
 @property (nonatomic, strong) UIView *extensionView;
+
+/*!
+ 输入框上方引用内容显示View
+
+*/
+@property (nonatomic, strong) RCReferencingView *referencingView;
 
 /*!
  输入框中内容发生变化的回调
@@ -712,6 +718,13 @@ typedef NS_ENUM(NSUInteger, RCCustomerServiceStatus) {
  @discussion 点击撤回消息Cell中重新编辑，会调用此回调，不会再触发didTapMessageCell:。
  */
 - (void)didTapReedit:(RCMessageModel *)model;
+
+/*!
+ 点击引用消息中被引用消息内容预览的回调
+
+ @param model 引用消息Cell的数据模型
+*/
+- (void)didTapReferencedContentView:(RCMessageModel *)model;
 
 /*!
  点击Cell中电话号码的回调

@@ -96,7 +96,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 @protocol RCIMUserInfoDataSource <NSObject>
 
 /*!
- 获取用户信息
+ SDK 的回调，用于向 App 获取用户信息
 
  @param userId      用户ID
  @param completion  获取用户信息完成之后需要执行的Block [userInfo:该用户ID对应的用户信息]
@@ -116,7 +116,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 @protocol RCIMPublicServiceProfileDataSource <NSObject>
 
 /**
- 获取公众号信息
+ SDK 的回调，用于向 App 获取公众号信息
 
  @param accountId 公众号 ID
  @param completion  获取公众号信息完成之后需要执行的 Block[profile: 该公众号 ID 对应的公众号信息]
@@ -127,7 +127,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 - (void)getPublicServiceProfile:(NSString *)accountId completion:(void (^)(RCPublicServiceProfile *profile))completion;
 
 /**
- 同步返回公众号信息
+ SDK 的回调，用于向 App 同步获取公众号信息
 
  @param accountId 公众号 ID
  @return 公众号信息
@@ -144,7 +144,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 @protocol RCIMGroupInfoDataSource <NSObject>
 
 /*!
- 获取群组信息
+ SDK 的回调，用于向 App 获取群组信息
 
  @param groupId     群组ID
  @param completion  获取群组信息完成之后需要执行的Block [groupInfo:该群组ID对应的群组信息]
@@ -164,7 +164,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 @protocol RCIMGroupUserInfoDataSource <NSObject>
 
 /*!
- 获取用户在群组中的群名片信息
+ SDK 的回调，用于向 App 获取用户在群组中的群名片信息
 
  @param userId          用户ID
  @param groupId         群组ID
@@ -185,7 +185,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
 @optional
 
 /*!
- 获取当前群组成员列表（需要实现用户信息提供者 RCIMUserInfoDataSource）
+ SDK 的回调，用于向 App 获取当前群组成员列表（需要实现用户信息提供者 RCIMUserInfoDataSource）
 
  @param groupId     群ID
  @param resultBlock 获取成功之后需要执行的Block [userIdList:群成员ID列表]
@@ -437,7 +437,7 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
  此方法的回调并非为原调用线程，您如果需要进行UI操作，请注意切换到主线程。
  */
 - (void)connectWithToken:(NSString *)token
-                dbOpened:(void (^)(RCDBErrorCode))dbOpenedBlock
+                dbOpened:(void (^)(RCDBErrorCode code))dbOpenedBlock
                  success:(void (^)(NSString *userId))successBlock
                    error:(void (^)(RCConnectErrorCode status))errorBlock
           tokenIncorrect:(void (^)(void))tokenIncorrectBlock;
@@ -1200,5 +1200,10 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchMessageReceiptRequestNotification
  @discussion 目前消息撤回后重新编辑仅为本地操作，卸载重装或者更换设备不会同步。
  */
 @property (nonatomic, assign) NSUInteger reeditDuration;
+
+/*!
+是否支持消息引用功能，默认值是NO，开启之后，聊天页面长按消息支持引用（目前仅支持文本消息、文件消息、图文消息、图片消息、引用消息的引用）
+*/
+@property (nonatomic, assign) BOOL enableMessageReference;
 
 @end

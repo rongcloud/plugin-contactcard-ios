@@ -97,6 +97,13 @@
  */
 - (void)didTapCancelUploadButton:(RCMessageModel *)model;
 
+/*!
+ 点击引用消息中被引用消息内容预览的回调
+
+ @param model 引用消息Cell的数据模型
+*/
+- (void)didTapReferencedContentView:(RCMessageModel *)model;
+
 #pragma mark - 客服机器人评价
 /*!
  机器人解答问题，点击是否解决问题的回调

@@ -30,6 +30,7 @@
 "Back"="返回";
 "IsDeleteHistoryMsg"="是否删除历史消息？";
 "ConnectionIsNotReachable"="当前网络不可用，请检查你的网络设置";
+"SendReadReceiptRequestFailed"="当前网络不可用，请检查你的网络设置";
 "PreviewFile"="文件预览";
 "StartDownloadingFile"="开始下载";
 "FileIsDownloading"="下载中...";
@@ -171,6 +172,7 @@
 "VoIPCallRemoteHangup"="对方已挂断";
 "VoIPCallRemoteNoResponse"="对方未接听";
 "VoIPCallAcceptByOtherClient"="其他设备已处理";
+"VoIPCallKickedByServer"="已被禁止通话";
 "VoIPCallRemoteBusyLine"="对方忙";
 "VoIPCallRemoteBusyLineAndShowAdvice"="对方忙，请稍后再拨";
 "VoIPCallRemoteDidInvite"="%@ 加入群聊";
@@ -230,7 +232,8 @@
 "GroupChatHistory" = "群聊的聊天记录";
 "ChatHistoryForXAndY" = "%@和%@的聊天记录";
 "ChatHistoryForX" = "%@的聊天记录";
-"ForwardingNotSupported" = "未发送成功、阅后即焚消息不支持转发";
+"OneByOneForwardingNotSupported" = "未发送成功、阅后即焚、音视频消息不支持转发";
+"CombineForwardingNotSupported" = "未发送成功、阅后即焚、引用消息不支持转发";
 "CombineAndForward" = "合并转发";
 "OneByOneForward" = "逐条转发";
 "ChatHistory" = "聊天记录";
@@ -254,6 +257,8 @@
 "SaveSuccess" = "保存成功";
 "SaveFailed" = "保存失败";
 "RecallEdit" = "重新编辑";
+"Reference"="引用";
+"CanNotRecall" = "该消息超过撤回时间，不能被撤回。";
 "hold_to_talk_title"="按住 说话";
 "release_to_send_title"="松开 发送";
 "slide_up_to_cancel_title"="手指上滑，取消发送";
