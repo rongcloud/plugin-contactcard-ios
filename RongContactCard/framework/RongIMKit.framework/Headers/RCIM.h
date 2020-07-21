@@ -550,6 +550,33 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchConversationStatusChangeNotificat
                      error:(void (^)(RCErrorCode nErrorCode, long messageId))errorBlock;
 
 /*!
+ 发送消息(除图片消息、文件消息外的所有消息)，会自动更新UI
+ 
+ @param message             将要发送的消息实体（需要保证 message 中的 conversationType，targetId，messageContent 是有效值)
+ @param pushContent         接收方离线时需要显示的远程推送内容
+ @param pushData            接收方离线时需要在远程推送中携带的非显示数据
+ @param successBlock        消息发送成功的回调 [successMessage: 消息实体]
+ @param errorBlock          消息发送失败的回调 [nErrorCode: 发送失败的错误码, errorMessage:消息实体]
+ @return                    发送的消息实体
+ 
+ @discussion 当接收方离线并允许远程推送时，会收到远程推送。
+ 远程推送中包含两部分内容，一是pushContent，用于显示；二是pushData，用于携带不显示的数据。
+
+ SDK内置的消息类型，如果您将pushContent和pushData置为nil，会使用默认的推送格式进行远程推送。
+ 自定义类型的消息，需要您自己设置pushContent和pushData来定义推送内容，否则将不会进行远程推送。
+ 
+ @warning 如果您使用IMKit，使用此方法发送消息SDK会自动更新UI；
+ 如果您使用IMLib，请使用RCIMClient中的同名方法发送消息，不会自动更新UI。
+ 
+ @remarks 消息操作
+ */
+- (RCMessage *)sendMessage:(RCMessage *)message
+               pushContent:(NSString *)pushContent
+                  pushData:(NSString *)pushData
+              successBlock:(void (^)(RCMessage *successMessage))successBlock
+                errorBlock:(void (^)(RCErrorCode nErrorCode, RCMessage *errorMessage))errorBlock;
+
+/*!
  发送媒体文件消息，会自动更新UI
 
  @param conversationType    发送消息的会话类型
@@ -581,6 +608,35 @@ FOUNDATION_EXPORT NSString *const RCKitDispatchConversationStatusChangeNotificat
                         success:(void (^)(long messageId))successBlock
                           error:(void (^)(RCErrorCode errorCode, long messageId))errorBlock
                          cancel:(void (^)(long messageId))cancelBlock;
+
+/*!
+ 发送媒体文件消息，会自动更新UI
+ 
+ @param message             将要发送的消息实体（需要保证 message 中的 conversationType，targetId，messageContent 是有效值)
+ @param pushContent         接收方离线时需要显示的远程推送内容
+ @param pushData            接收方离线时需要在远程推送中携带的非显示数据
+ @param progressBlock       消息发送进度更新的回调 [progress:当前的发送进度, 0 <= progress <= 100, progressMessage:消息实体]
+ @param successBlock        消息发送成功的回调 [successMessage:消息实体]
+ @param errorBlock          消息发送失败的回调 [nErrorCode:发送失败的错误码, errorMessage:消息实体]
+ @param cancelBlock         用户取消了消息发送的回调 [cancelMessage:消息实体]
+ @return                    发送的消息实体
+ 
+ @discussion 当接收方离线并允许远程推送时，会收到远程推送。
+ 远程推送中包含两部分内容，一是pushContent，用于显示；二是pushData，用于携带不显示的数据。
+ 
+ SDK内置的消息类型，如果您将pushContent和pushData置为nil，会使用默认的推送格式进行远程推送。
+ 自定义类型的消息，需要您自己设置pushContent和pushData来定义推送内容，否则将不会进行远程推送。
+ 
+ @warning 如果您使用IMKit，使用此方法发送媒体文件消息SDK会自动更新UI；
+ 如果您使用IMLib，请使用RCIMClient中的同名方法发送媒体文件消息，不会自动更新UI。
+ */
+- (RCMessage *)sendMediaMessage:(RCMessage *)message
+                    pushContent:(NSString *)pushContent
+                       pushData:(NSString *)pushData
+                       progress:(void (^)(int progress, RCMessage *progressMessage))progressBlock
+                   successBlock:(void (^)(RCMessage *successMessage))successBlock
+                     errorBlock:(void (^)(RCErrorCode nErrorCode, RCMessage *errorMessage))errorBlock
+                         cancel:(void (^)(RCMessage *cancelMessage))cancelBlock;
 
 /*!
  取消发送中的媒体信息

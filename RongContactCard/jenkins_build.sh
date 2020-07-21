@@ -28,8 +28,8 @@ BUILD_SIMULATOR_ARCHITECTURE=$PPARAM
 fi
 done
 
-
-sed -i ""  -e '/CFBundleShortVersionString/{n;s/[0-9]\.[0-9]\.[0-9]\{1,2\}/'"$VER_FLAG"'/; }' ./RongContactCard/Info.plist
+Bundle_Short_Version=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" ./RongContactCard/Info.plist)
+sed -i ""  -e '/CFBundleShortVersionString/{n;s/'${Bundle_Short_Version}'/'"$VER_FLAG"'/; }' ./RongContactCard/Info.plist
 
 PROJECT_NAME="RongContactCard.xcodeproj"
 targetName="RongContactCard"

@@ -551,6 +551,13 @@ typedef NS_ENUM(NSInteger, KBottomBarStatus) {
 - (void)commonPhrasesViewDidTouch:(NSString *)commonPhrases;
 
 /*!
+ 即将开始录制语音消息
+ 返回 YES：继续录音
+ 返回 NO：停止录音（音频配占用时，可以处理弹窗等）
+ */
+- (BOOL)recordWillBegin;
+
+/*!
  开始录制语音消息
  */
 - (void)recordDidBegin;
