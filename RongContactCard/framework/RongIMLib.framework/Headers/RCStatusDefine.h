@@ -240,6 +240,11 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
      聊天室状态值不存在
     */
     RC_KEY_NOT_EXIST = 23427,
+    
+    /*!
+     操作跟服务端同步时出现问题，有可能是操作过于频繁所致。如果出现该错误，请延时 0.5s 再试
+    */
+    RC_SETTING_SYNC_FAILED = 26002,
 
     /*!
      聊天室状态未同步完成

@@ -2675,6 +2675,17 @@ deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远�
 - (NSInteger)getGIFLimitSize;
 
 #pragma mark - 聊天室状态存储 (使用前必须先联系商务开通)
+/*!
+设置聊天室 KV 状态变化监听器
+
+@param delegate 聊天室 KV 状态变化的监听器
+
+@discussion 可以设置并实现此 delegate 来进行聊天室状态变化的监听 。SDK 会在回调中通知您聊天室状态的改变。
+
+@remarks 功能设置
+*/
+- (void)setRCChatRoomKVStatusChangeDelegate:(id<RCChatRoomKVStatusChangeDelegate>)delegate;
+
 /**
  设置聊天室自定义属性
 
