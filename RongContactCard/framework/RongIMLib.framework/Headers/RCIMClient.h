@@ -2832,6 +2832,51 @@ deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远�
 */
 - (void)setRCConversationStatusChangeDelegate:(id<RCConversationStatusChangeDelegate>)delegate;
 
+#pragma mark - 消息扩展
+/**
+ 更新消息扩展信息
+
+ @param expansionDic 要更新的消息扩展信息键值对
+ @param messageUId 消息 messageUId
+ @param successBlock 成功的回调
+ @param errorBlock 失败的回调
+ 
+ @discussion 消息扩展信息是以字典形式存在。设置的时候从 expansionDic 中读取 key，如果原有的扩展信息中 key 不存在则添加新的 KV 对，如果 key 存在则替换成新的 value。
+ @discussion 扩展信息只支持单聊和群组，其它会话类型不能设置扩展信息
+ @discussion 扩展信息字典中的 Key 支持大小写英文字母、数字、部分特殊符号 + = - _ 的组合方式，最大长度 32；Value 最长长度，单次设置扩展数量最大为 20，消息的扩展总数不能超过 300
+ 
+ @remarks 高级功能
+*/
+- (void)updateMessageExpansion:(NSDictionary<NSString *, NSString *> *)expansionDic
+                    messageUId:(NSString *)messageUId
+                       success:(void (^)(void))successBlock
+                         error:(void (^)(RCErrorCode status))errorBlock;
+
+/**
+ 删除消息扩展信息中特定的键值对
+
+ @param keyArray 消息扩展信息中待删除的 key 的列表
+ @param messageUId 消息 messageUId
+ @param successBlock 成功的回调
+ @param errorBlock 失败的回调
+
+ @discussion 扩展信息只支持单聊和群组，其它会话类型不能设置扩展信息
+ 
+ @remarks 高级功能
+*/
+- (void)removeMessageExpansionForKey:(NSArray<NSString *> *)keyArray
+                          messageUId:(NSString *)messageUId
+                             success:(void (^)(void))successBlock
+                               error:(void (^)(RCErrorCode status))errorBlock;
+
+/*!
+ 设置 IMlib 的消息扩展监听器
+ 
+ @discussion 代理回调在非主线程
+ 
+ @remarks 高级功能
+ */
+@property (nonatomic, weak) id<RCMessageExpansionDelegate> messageExpansionDelegate;
 @end
 
 #endif

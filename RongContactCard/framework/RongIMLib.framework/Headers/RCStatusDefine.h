@@ -348,7 +348,23 @@ typedef NS_ENUM(NSInteger, RCErrorCode) {
      * <p>请确认查询的公共服务的类型和公共服务 id 是否匹配。</p>
      */
     RC_PUBLIC_SERVICE_PROFILE_NOT_EXIST = 34007,
+    
+    /**
+    * 消息不能被扩展。
+    * <p>消息在发送时，RCMessage 对象的属性 canIncludeExpansion 置为 YES 才能进行扩展。</p>
+    */
+    RC_MESSAGE_CANT_EXPAND = 34008,
 
+    /**
+    * 消息扩展失败。
+    * <p>一般是网络原因导致的，请确保网络状态良好，并且融云 SDK 连接正常</p>
+    */
+    RC_MESSAGE_EXPAND_FAIL = 34009,
+    
+    /*!
+     消息扩展大小超出限制， 默认消息扩展字典 key 长度不超过 32 ，value 长度不超过 64 ，单次设置扩展数量最大为 20，消息的扩展总数不能超过 300
+     */
+    RC_MSG_EXPANSION_SIZE_LIMIT_EXCEED = 34010,
 };
 
 typedef NS_ENUM(NSInteger, RCDBErrorCode) {

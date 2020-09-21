@@ -310,3 +310,4 @@
 "RecallEdit" = "Edit";
 "Reference"="Quote";
 "CanNotRecall" = "This message has passed the recall time limit. Unable to recall.";
+"ChatFiles"="Chat Files";

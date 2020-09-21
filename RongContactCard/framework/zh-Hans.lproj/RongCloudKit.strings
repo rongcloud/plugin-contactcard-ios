@@ -310,3 +310,4 @@
 "RecallEdit" = "重新编辑";
 "Reference"="引用";
 "CanNotRecall" = "该消息超过撤回时间，不能被撤回。";
+"ChatFiles"="聊天文件";
