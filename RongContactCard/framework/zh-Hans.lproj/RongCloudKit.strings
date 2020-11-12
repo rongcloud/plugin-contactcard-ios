@@ -57,6 +57,7 @@
 "RC:SightMsg"="[小视频]";
 "Draft"="[草稿]";
 "RC:RLEnd" = "位置共享已结束";
+"RC:RLStart" = "我发起了位置共享";
 "Message"="消息";
 "conversation_private_collection_title"="聊天助手";
 "conversation_customer_collection_title"="客服助手";
@@ -97,6 +98,7 @@
 "MessageRecalling"="消息撤回中...";
 "AdminWithMessageRecalled"="管理员";
 "OtherHasRecalled"="%@ 撤回了一条消息";
+"MessageHasRecalled"="撤回了一条消息";
 "SelfHaveRecalled"="你撤回了一条消息";
 "MessageRecallFailed"="撤回不成功，请检查网络连接";
 "Save"="保存";

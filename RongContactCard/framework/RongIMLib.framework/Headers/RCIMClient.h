@@ -883,6 +883,31 @@ deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远�
                               success:(void (^)(long messageId))successBlock
                                 error:(void (^)(RCErrorCode nErrorCode, long messageId))errorBlock;
 
+/*!
+ 发送定向消息
+
+ @param message 消息实体
+ @param userIdList       接收消息的用户 ID 列表
+ @param pushContent      接收方离线时需要显示的远程推送内容
+ @param pushData         接收方离线时需要在远程推送中携带的非显示数据
+ @param successBlock     消息发送成功的回调 [successMessage:发送成功的消息]
+ @param errorBlock       消息发送失败的回调 [nErrorCode:发送失败的错误码,errorMessage:发送失败的消息]
+
+ @return 发送的消息实体
+
+ @discussion 此方法用于在群组和讨论组中发送消息给其中的部分用户，其它用户不会收到这条消息。
+
+ @warning 此方法目前仅支持群组和讨论组。
+
+ @remarks 消息操作
+ */
+- (RCMessage *)sendDirectionalMessage:(RCMessage *)message
+                         toUserIdList:(NSArray *)userIdList
+                          pushContent:(NSString *)pushContent
+                             pushData:(NSString *)pushData
+                         successBlock:(void (^)(RCMessage *successMessage))successBlock
+                           errorBlock:(void (^)(RCErrorCode nErrorCode, RCMessage *errorMessage))errorBlock;
+
 #pragma mark 消息接收监听
 /*!
  设置 IMlib 的消息接收监听器
@@ -987,7 +1012,7 @@ deviceToken 是系统提供的，从苹果服务器获取的，用于 APNs 远�
  撤回消息
 
  @param message      需要撤回的消息
- @param pushContent 当下发 push 消息时，在通知栏里会显示这个字段。如果不设置该字段，无法接受到 push 推送。
+ @param pushContent 当下发 push 消息时，在通知栏里会显示这个字段，不设置将使用融云默认推送内容
  @param successBlock 撤回成功的回调 [messageId:撤回的消息 ID，该消息已经变更为新的消息]
  @param errorBlock   撤回失败的回调 [errorCode:撤回失败错误码]
 

@@ -55,6 +55,7 @@
 "RC:PSImgTxtMsg"="[Message]";
 "RC:SightMsg"="[Video]";
 "RC:RLEnd" = "Location sharing is ended";
+"RC:RLStart" = "Location sharing...";
 "Draft"="[Draft]";
 "Message"="Message";
 "conversation_private_collection_title"="Chat assistant";
@@ -97,6 +98,7 @@
 "MessageRecalling"="Recalling...";
 "AdminWithMessageRecalled"="Admin";
 "OtherHasRecalled"="%@ has recalled a message";
+"MessageHasRecalled"="has recalled a message";
 "SelfHaveRecalled"="You have recalled a message";
 "MessageRecallFailed"="Failed to recall the message, please check your network.";
 "Save"="Save";
