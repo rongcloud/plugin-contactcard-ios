@@ -16,4 +16,9 @@ cp -af ${BUILT_PRODUCTS_DIR}/${TARGET_NAME}.framework/ ${BIN_DIR_TMP}/${PLATFORM
 cp -af ${BUILT_PRODUCTS_DIR}/${TARGET_NAME}.framework/ ${BIN_DIR}/${TARGET_NAME}.framework
 lipo -create $BIN_DIR_TMP/*-${TARGET_NAME}.framework/${TARGET_NAME} -output ${BIN_DIR}/${TARGET_NAME}.framework/${TARGET_NAME}
 
+# 给 SDK 签名
+codesign -fs - ${BIN_DIR}/${TARGET_NAME}.framework
+# 打印签名信息
+codesign -dvvv ${BIN_DIR}/${TARGET_NAME}.framework
+
 echo "------contact build end ----------------"

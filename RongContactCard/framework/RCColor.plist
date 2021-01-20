@@ -6,6 +6,8 @@
 	<dict>
 		<key>confirm_text</key>
 		<string>0x9fcdfd</string>
+		<key>confirm_text_enable</key>
+		<string>0x0099ff</string>
 	</dict>
 	<key>photoPreview</key>
 	<dict>
@@ -31,7 +33,7 @@
 		<key>preview_disable</key>
 		<string>0x959595</string>
 		<key>cancel</key>
-		<string>0x5D9AEC</string>
+		<string>0x0099ff</string>
 	</dict>
 </dict>
 </plist>

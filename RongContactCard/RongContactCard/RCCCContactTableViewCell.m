@@ -10,6 +10,7 @@
 #import "UIColor+RCCCColor.h"
 #import "RCCCUtilities.h"
 #import <RongIMKit/RCKitUtility.h>
+#import <RongIMKit/RCKitConfig.h>
 @interface RCCCContactTableViewCell ()
 
 @end
@@ -20,8 +21,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         [self initialize];
-        self.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ffffff" alpha:1]
-                                                        darkColor:[UIColor colorWithHexString:@"1c1c1e" alpha:0.4]];
+        self.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ffffff" alpha:1] darkColor:[UIColor colorWithHexString:@"191919" alpha:1]];
     }
     return self;
 }
@@ -30,8 +30,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         [self initialize];
-        self.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ffffff" alpha:1]
-                                                        darkColor:[UIColor colorWithHexString:@"1c1c1e" alpha:0.4]];
+        self.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ffffff" alpha:1] darkColor:[UIColor colorWithHexString:@"191919" alpha:1]];
     }
     return self;
 }
@@ -47,22 +46,29 @@
 
 - (void)initialize {
     _portraitView = [[RCloudImageView alloc] init];
+    if (RCKitConfigCenter.ui.globalConversationAvatarStyle == RC_USER_AVATAR_CYCLE &&
+        RCKitConfigCenter.ui.globalMessageAvatarStyle == RC_USER_AVATAR_CYCLE) {
+        _portraitView.layer.cornerRadius = 20.f;
+    }else{
+        _portraitView.layer.cornerRadius = 5.f;
+    }
+    _portraitView.layer.masksToBounds = YES;
+
     _portraitView.translatesAutoresizingMaskIntoConstraints = NO;
     [_portraitView setPlaceholderImage:[RCCCUtilities imageNamed:@"default_portrait_msg" ofBundle:@"RongCloud.bundle"]];
     [self.contentView addSubview:_portraitView];
 
     _nicknameLabel = [[UILabel alloc] init];
     _nicknameLabel.translatesAutoresizingMaskIntoConstraints = NO;
-    [_nicknameLabel setFont:[UIFont fontWithName:@"Heiti SC" size:15.0]];
-    _nicknameLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1]
-                                                        darkColor:[UIColor colorWithHexString:@"9f9f9f" alpha:1]];
+    [_nicknameLabel setFont:[UIFont fontWithName:@"Heiti SC" size:17.0]];
+    _nicknameLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1] darkColor:[UIColor colorWithHexString:@"ffffff" alpha:0.9]];
     [self.contentView addSubview:_nicknameLabel];
 
     _userIdLabel = [[UILabel alloc] init];
     _userIdLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_userIdLabel setFont:[UIFont fontWithName:@"Heiti SC" size:15.0]];
     _userIdLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1]
-                                                      darkColor:[UIColor colorWithHexString:@"9f9f9f" alpha:1]];
+                                                      darkColor:[UIColor colorWithHexString:@"ffffff" alpha:1]];
     [self.contentView addSubview:_userIdLabel];
 
     NSDictionary *views = NSDictionaryOfVariableBindings(_portraitView, _nicknameLabel, _userIdLabel);
@@ -83,7 +89,7 @@
                                                                 multiplier:1.0f
                                                                   constant:0]];
 
-    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_portraitView(36)]"
+    [self.contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_portraitView(40)]"
                                                                              options:kNilOptions
                                                                              metrics:nil
                                                                                views:views]];
@@ -93,7 +99,7 @@
     if (isDisplayID == YES) {
         [self.contentView addConstraints:[NSLayoutConstraint
                                              constraintsWithVisualFormat:
-                                                 @"H:|-10-[_portraitView(36)]-9-[_nicknameLabel][_userIdLabel(90)]-40-|"
+                                                 @"H:|-12-[_portraitView(40)]-12-[_nicknameLabel][_userIdLabel(90)]-40-|"
                                                                  options:kNilOptions
                                                                  metrics:nil
                                                                    views:views]];
@@ -108,7 +114,7 @@
     } else {
         [self.contentView
             addConstraints:[NSLayoutConstraint
-                               constraintsWithVisualFormat:@"H:|-10-[_portraitView(36)]-9-[_nicknameLabel]-40-|"
+                               constraintsWithVisualFormat:@"H:|-10-[_portraitView(40)]-12-[_nicknameLabel]-40-|"
                                                    options:kNilOptions
                                                    metrics:nil
                                                      views:views]];
