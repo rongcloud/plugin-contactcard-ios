@@ -8,6 +8,21 @@
 
 #import <UIKit/UIKit.h>
 
+///**
+// *  RCAttributedLabelClickedTextInfo
+// */
+//@interface RCAttributedLabelClickedTextInfo : NSObject
+///**
+// *  NSTextCheckingType
+// */
+//@property(nonatomic, assign) NSTextCheckingType textCheckingType;
+///**
+// *  text
+// */
+//@property(nonatomic, copy) NSString *text;
+//
+//@end
+
 /**
  *  RCAttributedDataSource
  */
@@ -96,7 +111,14 @@
  *  @param dataDetectorEnabled dataDetectorEnabled
  */
 - (void)setText:(NSString *)text dataDetectorEnabled:(BOOL)dataDetectorEnabled;
-
+///**
+// *  textInfoAtPoint
+// *
+// *  @param point point
+// *
+// *  @return RCAttributedLabelClickedTextInfo
+// */
+//- (RCAttributedLabelClickedTextInfo *)textInfoAtPoint:(CGPoint)point;
 /**
  *  setTextHighlighted
  *

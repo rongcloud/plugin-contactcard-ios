@@ -9,8 +9,6 @@
 /* Begin PBXBuildFile section */
 		27A03D151EA60F3600139B90 /* RCloudImageLoader.h in Headers */ = {isa = PBXBuildFile; fileRef = 27A03D131EA60F3600139B90 /* RCloudImageLoader.h */; };
 		27A03D161EA60F3600139B90 /* RCloudImageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 27A03D141EA60F3600139B90 /* RCloudImageView.h */; };
-		3B118056256CFF84001E5105 /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98794D0E1E2396DA00201C82 /* RongIMKit.framework */; };
-		3B118059256CFF85001E5105 /* RongIMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98794D0C1E2395E000201C82 /* RongIMLib.framework */; };
 		983237B91E27228100A1A739 /* RCCCUserInfo.h in Headers */ = {isa = PBXBuildFile; fileRef = 983237B71E27228100A1A739 /* RCCCUserInfo.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		983237BA1E27228100A1A739 /* RCCCUserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 983237B81E27228100A1A739 /* RCCCUserInfo.m */; };
 		983F43E81E25E03100EBBBCC /* RCCCExtensionModule.h in Headers */ = {isa = PBXBuildFile; fileRef = 983F43E61E25E03100EBBBCC /* RCCCExtensionModule.h */; };
@@ -38,9 +36,10 @@
 		98794CFF1E2390D700201C82 /* RCCCUtilities.m in Sources */ = {isa = PBXBuildFile; fileRef = 98794CFD1E2390D700201C82 /* RCCCUtilities.m */; };
 		98794D021E23911B00201C82 /* RCCCUIBarButtonItem.h in Headers */ = {isa = PBXBuildFile; fileRef = 98794D001E23911B00201C82 /* RCCCUIBarButtonItem.h */; };
 		98794D031E23911B00201C82 /* RCCCUIBarButtonItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 98794D011E23911B00201C82 /* RCCCUIBarButtonItem.m */; };
+		98794D0D1E2395E000201C82 /* RongIMLib.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98794D0C1E2395E000201C82 /* RongIMLib.framework */; };
+		98794D0F1E2396DA00201C82 /* RongIMKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 98794D0E1E2396DA00201C82 /* RongIMKit.framework */; };
 		98794D161E24B10E00201C82 /* RCCCpinyin.c in Sources */ = {isa = PBXBuildFile; fileRef = 98794D141E24B10E00201C82 /* RCCCpinyin.c */; };
 		98794D171E24B10E00201C82 /* RCCCpinyin.h in Headers */ = {isa = PBXBuildFile; fileRef = 98794D151E24B10E00201C82 /* RCCCpinyin.h */; };
-		A29FCE3325932526006A9CFD /* RCSendCardMessageView+internal.h in Headers */ = {isa = PBXBuildFile; fileRef = A29FCE3225932526006A9CFD /* RCSendCardMessageView+internal.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -95,7 +94,6 @@
 		A27AF9022480F30000686890 /* jenkins_build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = jenkins_build.sh; sourceTree = "<group>"; };
 		A27AF9032480F30000686890 /* after_build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = after_build.sh; sourceTree = "<group>"; };
 		A27AF9042480F30000686890 /* before_build.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = before_build.sh; sourceTree = "<group>"; };
-		A29FCE3225932526006A9CFD /* RCSendCardMessageView+internal.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "RCSendCardMessageView+internal.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,8 +101,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3B118059256CFF85001E5105 /* RongIMLib.framework in Frameworks */,
-				3B118056256CFF84001E5105 /* RongIMKit.framework in Frameworks */,
+				98794D0D1E2395E000201C82 /* RongIMLib.framework in Frameworks */,
+				98794D0F1E2396DA00201C82 /* RongIMKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -139,8 +137,8 @@
 		983F43FA1E26305D00EBBBCC /* Cell */ = {
 			isa = PBXGroup;
 			children = (
-				983F43FC1E26307300EBBBCC /* RCCCContactTableViewCell.h */,
 				983F43FB1E26307300EBBBCC /* RCCCContactTableViewCell.m */,
+				983F43FC1E26307300EBBBCC /* RCCCContactTableViewCell.h */,
 			);
 			name = Cell;
 			sourceTree = "<group>";
@@ -169,7 +167,6 @@
 		98794C501E23759A00201C82 /* RongContactCard */ = {
 			isa = PBXGroup;
 			children = (
-				A29FCE3825932822006A9CFD /* Extension */,
 				27A03D121EA60F3600139B90 /* Header */,
 				98794C8C1E23823500201C82 /* Utility */,
 				98794C831E237C7900201C82 /* ViewController */,
@@ -279,14 +276,6 @@
 			name = Scripts;
 			sourceTree = "<group>";
 		};
-		A29FCE3825932822006A9CFD /* Extension */ = {
-			isa = PBXGroup;
-			children = (
-				A29FCE3225932526006A9CFD /* RCSendCardMessageView+internal.h */,
-			);
-			path = Extension;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -304,7 +293,6 @@
 				983F43F01E262F9A00EBBBCC /* RCContactCardMessageCell.h in Headers */,
 				98794CF31E238E4800201C82 /* UIColor+RCCCColor.h in Headers */,
 				983F43FE1E26307300EBBBCC /* RCCCContactTableViewCell.h in Headers */,
-				A29FCE3325932526006A9CFD /* RCSendCardMessageView+internal.h in Headers */,
 				98794C521E23759A00201C82 /* RongContactCard.h in Headers */,
 				27A03D151EA60F3600139B90 /* RCloudImageLoader.h in Headers */,
 				98794D021E23911B00201C82 /* RCCCUIBarButtonItem.h in Headers */,
@@ -579,7 +567,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/framework",
@@ -592,12 +579,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/RongContactCard",
 				);
-				MACH_O_TYPE = mh_dylib;
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.rongcloud.im.RongContactCard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Debug;
@@ -611,7 +596,6 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(PROJECT_DIR)/framework",
@@ -625,12 +609,10 @@
 					"$(inherited)",
 					"$(PROJECT_DIR)/RongContactCard",
 				);
-				MACH_O_TYPE = mh_dylib;
+				MACH_O_TYPE = staticlib;
 				PRODUCT_BUNDLE_IDENTIFIER = cn.rongcloud.im.RongContactCard;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
-				SUPPORTS_MACCATALYST = NO;
-				TARGETED_DEVICE_FAMILY = "1,2";
 				VALID_ARCHS = "arm64 armv7 armv7s i386 x86_64";
 			};
 			name = Release;

@@ -7,7 +7,7 @@
 //
 
 #import "RCContactCardMessage.h"
-#import <RongIMKit/RCKitCommonDefine.h>
+
 @implementation RCContactCardMessage
 + (instancetype)messageWithUserInfo:(RCUserInfo *)userInfo {
     RCContactCardMessage *cardMessage = [[RCContactCardMessage alloc] init];
@@ -106,10 +106,10 @@
     NSString *displayContent;
     if ([[RCIMClient sharedRCIMClient].currentUserInfo.userId isEqualToString:self.sendUserId]) {
         displayContent = [NSString
-            stringWithFormat:RCLocalizedString(@"SharedContactCard"), self.name];
+            stringWithFormat:NSLocalizedStringFromTable(@"SharedContactCard", @"RongCloudKit", nil), self.name];
     } else {
         displayContent = [NSString
-            stringWithFormat:RCLocalizedString(@"RecommendedToYou"), self.name];
+            stringWithFormat:NSLocalizedStringFromTable(@"RecommendedToYou", @"RongCloudKit", nil), self.name];
     }
     return displayContent;
 }

@@ -37,4 +37,10 @@
  */
 - (void)longPressed:(id)sender;
 
+/*!
+ 图片消息进度的View
+ @warning  **已废弃，请勿使用。**
+ */
+@property (nonatomic, strong) RCImageMessageProgressView *rcImageProressView;
+
 @end

@@ -7,11 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RCBaseTableViewController.h"
 
 /*!
  查找公众服务账号的ViewController
  */
-@interface RCPublicServiceSearchViewController : RCBaseTableViewController
+@interface RCPublicServiceSearchViewController : UITableViewController
 
 @end

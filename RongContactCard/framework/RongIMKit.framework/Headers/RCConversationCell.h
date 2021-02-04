@@ -106,6 +106,11 @@
 @property (nonatomic, strong) UIColor *topCellBackgroundColor;
 
 /*!
+ 显示最后一台消息发送状态
+ */
+@property (nonatomic, strong) UIImageView *lastSendMessageStatusView;
+
+/*!
  显示内容区的view
  */
 @property (nonatomic, strong) RCConversationDetailContentView *detailContentView;

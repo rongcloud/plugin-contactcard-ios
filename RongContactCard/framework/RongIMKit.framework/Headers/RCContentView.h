@@ -13,7 +13,10 @@
  */
 @interface RCContentView : UIView
 
-@property (nonatomic, assign) CGSize contentSize;
+/*!
+ Frame发生变化的回调
+ */
+@property (nonatomic, copy) void (^eventBlock)(CGRect frame);
 
 /*!
  注册Frame发生变化的回调
@@ -22,10 +25,4 @@
  */
 - (void)registerFrameChangedEvent:(void (^)(CGRect frame))eventBlock;
 
-/*!
- 注册Size发生变化的回调
-
- @param eventBlock Size 发生变化的回调
- */
-- (void)registerSizeChangedEvent:(void (^)(CGSize contentSize))eventBlock;
 @end

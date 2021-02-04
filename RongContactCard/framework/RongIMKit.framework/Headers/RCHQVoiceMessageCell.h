@@ -14,6 +14,11 @@
 @interface RCHQVoiceMessageCell : RCMessageCell
 
 /*!
+ 消息的背景View
+ */
+@property (nonatomic, strong) UIImageView *bubbleBackgroundView;
+
+/*!
  语音播放的View
  */
 @property (nonatomic, strong) UIImageView *playVoiceView;

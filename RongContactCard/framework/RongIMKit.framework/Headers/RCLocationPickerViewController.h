@@ -9,7 +9,6 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
-#import "RCBaseViewController.h"
 
 /*!
  POI搜索结束后的回调block
@@ -28,7 +27,7 @@ typedef void (^OnPoiSearchResult)(NSArray *pois, BOOL clearPreviousResult, BOOL 
  地理位置选取的ViewController
  */
 @interface RCLocationPickerViewController
-    : RCBaseViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate>
+    : UIViewController <CLLocationManagerDelegate, UITableViewDataSource, UITableViewDelegate>
 
 /*!
  地理位置选择完成之后的回调

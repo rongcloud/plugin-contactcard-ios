@@ -35,7 +35,6 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
 @property (nonatomic, strong) RCCCGroupInfo *groupInfo;
 
 @property (nonatomic, assign) NSInteger destructDuration;
-@property (nonatomic, strong) UIImageView *arrow;
 @end
 
 @implementation RCSendCardMessageView
@@ -48,10 +47,11 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
 }
 */
 
-- (id)initWithFrame:(CGRect)frame ConversationType:(RCConversationType)conversationType targetId:(NSString *)targetId {
+- (instancetype)initWithFrame:(CGRect)frame {
     self = [super initWithFrame:frame];
     if (self) {
-        self.backgroundColor = [UIColor colorWithHexString:@"000000" alpha:0.4];
+        self.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:0.5]
+                                                        darkColor:[UIColor colorWithHexString:@"6a6a6a" alpha:0.6]];
 
         [self setSubViews];
 
@@ -64,37 +64,30 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
                                                  selector:@selector(keyboardWillHide:)
                                                      name:UIKeyboardWillHideNotification
                                                    object:nil];
-        [self setConversationType:conversationType targetId:targetId];
     }
     return self;
 }
 
 - (void)setSubViews {
-    _contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 280)];
+    _contentView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 280, 259)];
     _contentView.center = self.center;
-    _contentView.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ffffff" alpha:1] darkColor:HEXCOLOR(0x2c2c2c)];
-    _contentView.layer.masksToBounds = YES;
-    _contentView.layer.cornerRadius = 8;
+    _contentView.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"ffffff" alpha:1]
+                                                            darkColor:[UIColor colorWithHexString:@"000000" alpha:0.8]];
     [self addSubview:_contentView];
 
     //发送给：
     _sendToLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _sendToLabel.font = [UIFont systemFontOfSize:18.f];
     _sendToLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1]
-                                                      darkColor:[UIColor colorWithHexString:@"ffffff" alpha:0.9]];
-    _sendToLabel.text = RCLocalizedString(@"SendTo");
+                                                      darkColor:[UIColor colorWithHexString:@"9f9f9f" alpha:1]];
+    _sendToLabel.text = NSLocalizedStringFromTable(@"SendTo", @"RongCloudKit", nil);
     //[_sendToLabel sizeToFit];
     _sendToLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_sendToLabel];
 
     //头像
     _portraitView = [[RCloudImageView alloc] initWithFrame:CGRectZero];
-    if (RCKitConfigCenter.ui.globalConversationAvatarStyle == RC_USER_AVATAR_CYCLE &&
-        RCKitConfigCenter.ui.globalMessageAvatarStyle == RC_USER_AVATAR_CYCLE) {
-        _portraitView.layer.cornerRadius = 20.f;
-    } else {
-        _portraitView.layer.cornerRadius = 5.f;
-    }
+    _portraitView.layer.cornerRadius = 5.f;
     _portraitView.layer.masksToBounds = YES;
     _portraitView.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_portraitView];
@@ -103,7 +96,8 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     //昵称
     _nicknameLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _nicknameLabel.font = [UIFont systemFontOfSize:17.f];
-    _nicknameLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1] darkColor:[UIColor colorWithHexString:@"ffffff" alpha:0.9]];
+    _nicknameLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1]
+                                                        darkColor:[UIColor colorWithHexString:@"9f9f9f" alpha:1]];
     _nicknameLabel.lineBreakMode = NSLineBreakByTruncatingMiddle;
     _nicknameLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_nicknameLabel];
@@ -112,28 +106,37 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     _separationView1 = [[UIView alloc] initWithFrame:CGRectZero];
     _separationView1.backgroundColor =
         [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"dfdfdf" alpha:1]
-                                 darkColor:[UIColor colorWithHexString:@"373737" alpha:1]];
+                                 darkColor:[UIColor colorWithHexString:@"3a3a3a" alpha:1]];
     _separationView1.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_separationView1];
 
     //个人名片
     _cardLabel = [[UILabel alloc] initWithFrame:CGRectZero];
     _cardLabel.font = [UIFont systemFontOfSize:14.f];
-    _cardLabel.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"999999" alpha:1] darkColor:[UIColor colorWithHexString:@"ffffff" alpha:0.6]];
+    _cardLabel.textColor = [UIColor colorWithHexString:@"999999" alpha:1.f];
     _cardLabel.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_cardLabel];
 
     //留言
     _messageTextField = [[UITextField alloc] initWithFrame:CGRectZero];
-    _messageTextField.font = [UIFont systemFontOfSize:13.f];
-    _messageTextField.backgroundColor = RCDYCOLOR(0xf3f3f3, 0x363636);
+    _messageTextField.font = [UIFont systemFontOfSize:14.f];
+    _messageTextField.placeholder = NSLocalizedStringFromTable(@"LeaveAMessage", @"RongCloudKit", nil);
+    _messageTextField.layer.borderWidth = 0.5f;
+    _messageTextField.layer.borderColor =
+        [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"dfdfdf" alpha:1]
+                                 darkColor:[UIColor colorWithHexString:@"3a3a3a" alpha:1]]
+            .CGColor;
     _messageTextField.leftView = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 12, 36)];
     _messageTextField.leftViewMode = UITextFieldViewModeAlways;
-    _messageTextField.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1] darkColor:[UIColor colorWithHexString:@"ffffff" alpha:0.4]];
+    _messageTextField.layer.cornerRadius = 5.f;
+    _messageTextField.textColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1]
+                                                           darkColor:[UIColor colorWithHexString:@"9f9f9f" alpha:1]];
     NSAttributedString *attrString = [[NSAttributedString alloc]
-        initWithString:RCLocalizedString(@"LeaveAMessage")
+        initWithString:_messageTextField.placeholder
             attributes:@{
-                NSForegroundColorAttributeName :RCDYCOLOR(0xa0a5ab, 0x666666),
+                NSForegroundColorAttributeName :
+                    [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"999999" alpha:1]
+                                             darkColor:[UIColor colorWithHexString:@"666666" alpha:1]],
                 NSFontAttributeName : _messageTextField.font
             }];
     _messageTextField.attributedPlaceholder = attrString;
@@ -144,7 +147,7 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     _separationView2 = [[UIView alloc] initWithFrame:CGRectZero];
     _separationView2.backgroundColor =
         [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"dfdfdf" alpha:1]
-                                 darkColor:[UIColor colorWithHexString:@"373737" alpha:1]];
+                                 darkColor:[UIColor colorWithHexString:@"3a3a3a" alpha:1]];
     _separationView2.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_separationView2];
 
@@ -152,7 +155,7 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     _separationView3 = [[UIView alloc] initWithFrame:CGRectZero];
     _separationView3.backgroundColor =
         [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"dfdfdf" alpha:1]
-                                 darkColor:[UIColor colorWithHexString:@"323232" alpha:1]];
+                                 darkColor:[UIColor colorWithHexString:@"3a3a3a" alpha:1]];
     _separationView3.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_separationView3];
 
@@ -160,9 +163,9 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     _cancleButton = [[UIButton alloc] initWithFrame:CGRectZero];
     _cancleButton.titleLabel.font = [UIFont systemFontOfSize:18.f];
     [_cancleButton setTitleColor:[RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"000000" alpha:1]
-                                                          darkColor:[UIColor colorWithHexString:@"aaaaaa" alpha:1]]
+                                                          darkColor:[UIColor colorWithHexString:@"666666" alpha:1]]
                         forState:UIControlStateNormal];
-    [_cancleButton setTitle:RCLocalizedString(@"Cancel") forState:UIControlStateNormal];
+    [_cancleButton setTitle:NSLocalizedStringFromTable(@"Cancel", @"RongCloudKit", nil) forState:UIControlStateNormal];
     [_cancleButton addTarget:self action:@selector(clickCancleBtn) forControlEvents:UIControlEventTouchUpInside];
     _cancleButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_cancleButton];
@@ -171,19 +174,14 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     _sendButton = [[UIButton alloc] initWithFrame:CGRectZero];
     _sendButton.titleLabel.font = [UIFont systemFontOfSize:18.f];
     [_sendButton setTitleColor:[UIColor colorWithHexString:@"0099ff" alpha:1.f] forState:UIControlStateNormal];
-    [_sendButton setTitle:RCLocalizedString(@"Send") forState:UIControlStateNormal];
+    [_sendButton setTitle:NSLocalizedStringFromTable(@"Send", @"RongCloudKit", nil) forState:UIControlStateNormal];
     [_sendButton addTarget:self action:@selector(clickSendBtn) forControlEvents:UIControlEventTouchUpInside];
     _sendButton.translatesAutoresizingMaskIntoConstraints = NO;
     [_contentView addSubview:_sendButton];
-    
-    _arrow = [UIImageView new];
-    [_arrow setImage:RCResourceImage(@"right_arrow")];
-    _arrow.translatesAutoresizingMaskIntoConstraints = NO;
-    [_contentView addSubview:_arrow];
 
     _subViewsDic = NSDictionaryOfVariableBindings(_contentView, _sendToLabel, _portraitView, _nicknameLabel,
                                                   _separationView1, _cardLabel, _messageTextField, _separationView2,
-                                                  _separationView3, _cancleButton, _sendButton, _arrow);
+                                                  _separationView3, _cancleButton, _sendButton);
 
     //设置自动布局
     [self setAutoLayout];
@@ -196,7 +194,7 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
                                                                            views:_subViewsDic]];
 
     [_contentView addConstraints:[NSLayoutConstraint
-                                     constraintsWithVisualFormat:@"H:|-20-[_portraitView(40)]-10-[_nicknameLabel]-(>=10)-[_arrow(8)]-24-|"
+                                     constraintsWithVisualFormat:@"H:|-20-[_portraitView(40)]-10-[_nicknameLabel]-20-|"
                                                          options:0
                                                          metrics:nil
                                                            views:_subViewsDic]];
@@ -233,9 +231,9 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
 
     [_contentView
         addConstraints:[NSLayoutConstraint
-                           constraintsWithVisualFormat:@"V:|-20-[_sendToLabel]-12-[_portraitView(40)]-14-[_"
-                                                       @"separationView1(0.5)]-14-[_cardLabel]-14-[_messageTextField("
-                                                       @"36)]-29.5-[_separationView2(0.5)]-0-[_cancleButton(56)]|"
+                           constraintsWithVisualFormat:@"V:|-17-[_sendToLabel]-6-[_portraitView(40)]-15-[_"
+                                                       @"separationView1(0.5)]-15-[_cardLabel]-15-[_messageTextField("
+                                                       @"36)]-20-[_separationView2(0.5)]-0-[_cancleButton(50)]|"
                                                options:0
                                                metrics:nil
                                                  views:_subViewsDic]];
@@ -251,17 +249,7 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
                                                                          options:0
                                                                          metrics:nil
                                                                            views:_subViewsDic]];
-    [_contentView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:[_arrow(15)]"
-                                                                         options:0
-                                                                         metrics:nil
-                                                                           views:_subViewsDic]];
-    [_contentView addConstraint:[NSLayoutConstraint constraintWithItem:_arrow
-                                                             attribute:NSLayoutAttributeCenterY
-                                                             relatedBy:NSLayoutRelationEqual
-                                                                toItem:_nicknameLabel
-                                                             attribute:NSLayoutAttributeCenterY
-                                                            multiplier:1
-                                                              constant:0]];
+
     [_contentView addConstraint:[NSLayoutConstraint constraintWithItem:_separationView3
                                                              attribute:NSLayoutAttributeTop
                                                              relatedBy:NSLayoutRelationEqual
@@ -305,7 +293,7 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     cardMessage.sendUserName = currentUserInfo.name;
     NSString *pushContent = nil;
     NSString *tail = [NSString
-        stringWithFormat:RCLocalizedString(@"RecommendedToYou"), _cardUserInfo.name];
+        stringWithFormat:NSLocalizedStringFromTable(@"RecommendedToYou", @"RongCloudKit", nil), _cardUserInfo.name];
     if (_conversationType == ConversationType_GROUP) {
         pushContent = [NSString stringWithFormat:@"%@(%@)%@", cardMessage.sendUserName, _groupInfo.groupName, tail];
     } else {
@@ -398,15 +386,13 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
             }
         }
     }
-    if (_conversationType == ConversationType_PRIVATE) {
-        self.arrow.hidden = YES;
-    }
 }
+
 - (void)updateGroupInfo:(RCCCGroupInfo *)groupInfo {
     self.groupInfo = groupInfo;
     [self.portraitView setImageURL:[NSURL URLWithString:groupInfo.portraitUri]];
     self.nicknameLabel.text = [NSString stringWithFormat:@"%@ (%@%@)", groupInfo.groupName, groupInfo.number,
-                                                         RCLocalizedString(@"Person")];
+                                                         NSLocalizedStringFromTable(@"Person", @"RongCloudKit", nil)];
 }
 
 - (BOOL)canSendContactCardMessageInGroup {
@@ -422,7 +408,7 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
 - (void)setCardUserInfo:(RCUserInfo *)cardUserInfo {
     _cardUserInfo = cardUserInfo;
     _cardLabel.text =
-        [NSString stringWithFormat:@"[%@]%@", RCLocalizedString(@"ContactCard"),
+        [NSString stringWithFormat:@"%@：%@", NSLocalizedStringFromTable(@"ContactCard", @"RongCloudKit", nil),
                                    cardUserInfo.name];
     _cardUserInfo.name = cardUserInfo.name;
 }
@@ -443,7 +429,7 @@ NSString *const RCCC_CardMessageSend = @"RCCC_CardMessageSend";
     self.groupInfo = targetgroupInfo;
     self.nicknameLabel.text =
         [NSString stringWithFormat:@"%@ (%@%@)", targetgroupInfo.groupName, targetgroupInfo.number,
-                                   RCLocalizedString(@"Person")];
+                                   NSLocalizedStringFromTable(@"Person", @"RongCloudKit", nil)];
     [_portraitView setImageURL:[NSURL URLWithString:targetgroupInfo.portraitUri]];
     self.conversationType = ConversationType_GROUP;
     self.targetId = targetgroupInfo.groupId;
