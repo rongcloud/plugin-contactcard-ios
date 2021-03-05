@@ -7,13 +7,9 @@
 //
 
 #import "RCContactCardKit.h"
+#import "RongContactCardAdaptiveHeader.h"
 #import "RCSendCardMessageView.h"
-
-@interface RCSendCardMessageView ()
-@property (nonatomic) RCConversationType conversationType;
-@property (nonatomic, strong) NSString *targetId;
-@property (nonatomic, assign) NSInteger destructDuration;
-@end
+#import "RCSendCardMessageView+internal.h"
 
 @implementation RCContactCardKit
 

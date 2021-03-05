@@ -6,6 +6,9 @@
 #  Created by xugang on 4/8/15.
 #  Copyright (c) 2015 RongCloud. All rights reserved.
 
+#失败之后立即退出
+trap exit ERR
+
 BUILD_SIMULATOR_ARCHITECTURE="true"
 CONFIGURATION="Release"
 for((options_index = 1; options_index < $#; options_index=$[$options_index+2])) do
@@ -25,11 +28,17 @@ VER_FLAG=$PPARAM
 elif [ ${PFLAG} == "-simulator" ]
 then
 BUILD_SIMULATOR_ARCHITECTURE=$PPARAM
+elif [ $PFLAG == "-time" ]
+then
+CUR_TIME=$PPARAM
 fi
 done
 
-Bundle_Short_Version=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" ./RongContactCard/Info.plist)
-sed -i ""  -e '/CFBundleShortVersionString/{n;s/'${Bundle_Short_Version}'/'"$VER_FLAG"'/; }' ./RongContactCard/Info.plist
+INFO_PLIST="./RongContactCard/Info.plist"
+Bundle_Short_Version=$(/usr/libexec/PlistBuddy -c "Print CFBundleShortVersionString" $INFO_PLIST)
+sed -i ""  -e '/CFBundleShortVersionString/{n;s/'${Bundle_Short_Version}'/'"$VER_FLAG"'/; }' $INFO_PLIST
+Bundle_Short_Version=$(/usr/libexec/PlistBuddy -c "Print CFBundleVersion" $INFO_PLIST)
+sed -i ""  -e '/CFBundleVersion/{n;s/'${Bundle_Short_Version}'/'"$CUR_TIME"'/; }' $INFO_PLIST
 
 PROJECT_NAME="RongContactCard.xcodeproj"
 targetName="RongContactCard"

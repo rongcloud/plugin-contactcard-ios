@@ -7,7 +7,7 @@
 		<key>LocationImageQuality</key>
 		<real>0.7</real>
 		<key>LocationImageWidth</key>
-		<string>408</string>
+		<string>480</string>
 		<key>LocationImageHeight</key>
 		<string>240</string>
 	</dict>
@@ -25,12 +25,12 @@
 	</dict>
 	<key>Image</key>
 	<dict>
-		<key>ThumbnailWidth</key>
-		<integer>240</integer>
-		<key>ThumbnailHeight</key>
-		<integer>100</integer>
 		<key>ThumbnailQuality</key>
-		<real>1</real>
+		<string>0.3</string>
+		<key>ThumbnailWidth</key>
+		<string>240</string>
+		<key>ThumbnailHeight</key>
+		<string>240</string>
 		<key>ImageQuality</key>
 		<real>0.85</real>
 		<key>ImageWidth</key>

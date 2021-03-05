@@ -6,7 +6,7 @@
 //  Copyright © 2020 RongCloud. All rights reserved.
 //
 
-#import <RongIMKit/RongIMKit.h>
+#import "RongIMKit.h"
 #import "RCAttributedLabel.h"
 #import "RCReferencedContentView.h"
 NS_ASSUME_NONNULL_BEGIN
@@ -21,11 +21,6 @@ NS_ASSUME_NONNULL_BEGIN
  文本内容的Label
  */
 @property (nonatomic, strong) RCAttributedLabel *contentLabel;
-
-/*!
- 背景View
- */
-@property (nonatomic, strong) UIImageView *bubbleBackgroundView;
 
 @end
 

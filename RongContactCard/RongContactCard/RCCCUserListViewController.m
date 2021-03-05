@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import <RongIMKit/RongIMKit.h>
+#import "RongContactCardAdaptiveHeader.h"
 #import "RCCCUserListViewController.h"
 #import "RCCCContactTableViewCell.h"
 #import "UIColor+RCCCColor.h"
@@ -15,7 +15,6 @@
 #import "RCSendCardMessageView.h"
 #import "RCCCUtilities.h"
 #import "RCContactCardKit.h"
-#import <RongIMKit/RCKitUtility.h>
 @interface RCCCUserListViewController () <UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate,
                                           UISearchDisplayDelegate>
 
@@ -103,7 +102,7 @@
     BOOL result = [RCContactCardKit shareInstance].contactsDataSource &&
                   [[RCContactCardKit shareInstance].contactsDataSource respondsToSelector:@selector(getAllContacts:)];
     if (!result) {
-        NSLog(@"Error:显示名片消息联系人列表必须实现RCContactCardKit的RCCCContactsDataSource的代理方法");
+        NSLog(@"Error: Display contact card list must be implemented  RCCCContactsDataSource of RCContactCardKit");
     }
     return result;
 }
@@ -124,17 +123,16 @@
 }
 
 - (void)configNav {
-    self.navigationItem.title = NSLocalizedStringFromTable(@"SelectContact", @"RongCloudKit", nil);
+    self.navigationItem.title = RCLocalizedString(@"SelectContact");
     self.leftBtn =
-        [[RCCCUIBarButtonItem alloc] initWithbuttonTitle:NSLocalizedStringFromTable(@"Cancel", @"RongCloudKit", nil)
-                                              titleColor:[RCIM sharedRCIM].globalNavigationBarTintColor
+        [[RCCCUIBarButtonItem alloc] initWithbuttonTitle:RCLocalizedString(@"Cancel")
+                                              titleColor:RCKitConfigCenter.ui.globalNavigationBarTintColor
                                              buttonFrame:CGRectMake(0, 0, 50, 30)
                                                   target:self
                                                   action:@selector(leftBarButtonItemPressed:)];
     self.leftBtn.button.titleLabel.font = [UIFont systemFontOfSize:16];
-    //[self.leftBtn.button setTitleEdgeInsets:UIEdgeInsetsMake(0, 10, 0, -10)];
     [self.leftBtn buttonIsCanClick:YES
-                       buttonColor:[RCIM sharedRCIM].globalNavigationBarTintColor
+                       buttonColor:RCKitConfigCenter.ui.globalNavigationBarTintColor
                      barButtonItem:self.leftBtn];
     self.navigationItem.leftBarButtonItem = self.leftBtn;
 }
@@ -151,7 +149,7 @@
     if (!_searchBar) {
         _searchBar = [[UISearchBar alloc] initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 44)];
         [_searchBar sizeToFit];
-        [_searchBar setPlaceholder:NSLocalizedStringFromTable(@"ToSearch", @"RongCloudKit", nil)];
+        [_searchBar setPlaceholder:RCLocalizedString(@"ToSearch")];
         [_searchBar setDelegate:self];
         [_searchBar setKeyboardType:UIKeyboardTypeDefault];
         if (@available(iOS 13.0, *)) {
@@ -176,15 +174,19 @@
                     style:UITableViewStylePlain];
         [_tableView setDelegate:self];
         [_tableView setDataSource:self];
-        _tableView.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"f0f0f6" alpha:1]
-                                                              darkColor:[UIColor colorWithHexString:@"000000" alpha:1]];
-        _tableView.separatorColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"dfdfdf" alpha:1]
-                                                             darkColor:[UIColor colorWithHexString:@"1a1a1a" alpha:1]];
+        _tableView.backgroundColor = [RCKitUtility generateDynamicColor:[UIColor colorWithHexString:@"f0f0f6" alpha:1] darkColor:[UIColor colorWithHexString:@"111111" alpha:1]];
+        _tableView.separatorColor = RCDYCOLOR(0xE3E5E6, 0x272727);
         _tableView.tableHeaderView = self.searchBar;
         // cell无数据时，不显示间隔线
         UIView *v = [[UIView alloc] initWithFrame:CGRectZero];
         [_tableView setTableFooterView:v];
         _tableView.sectionIndexBackgroundColor = [UIColor clearColor];
+        if ([self.tableView respondsToSelector:@selector(setSeparatorInset:)]) {
+            [self.tableView setSeparatorInset:UIEdgeInsetsMake(0, 59, 0, 0)];
+        }
+        if ([self.tableView respondsToSelector:@selector(setLayoutMargins:)]) {
+            [self.tableView setLayoutMargins:UIEdgeInsetsMake(0, 59, 0, 0)];
+        }
     }
     return _tableView;
 }
@@ -251,8 +253,6 @@
         }
         [cell.portraitView setImageURL:[NSURL URLWithString:userInfo.portraitUri]];
     }
-    cell.portraitView.layer.masksToBounds = YES;
-    cell.portraitView.layer.cornerRadius = 5.f;
     cell.selectionStyle = UITableViewCellSelectionStyleDefault;
     cell.portraitView.contentMode = UIViewContentModeScaleAspectFill;
     cell.nicknameLabel.font = [UIFont systemFontOfSize:15.f];
@@ -268,7 +268,7 @@
     UILabel *title = [[UILabel alloc] initWithFrame:CGRectZero];
     title.frame = CGRectMake(13, 3, 15, 15);
     title.font = [UIFont systemFontOfSize:15.f];
-    title.textColor = [UIColor colorWithHexString:@"999999" alpha:1.f];
+    title.textColor = RCDYCOLOR(0x999999, 0x878787);
 
     [view addSubview:title];
 
@@ -330,13 +330,12 @@
     if ([self.searchBar isFirstResponder]) {
         [self.searchBar resignFirstResponder];
     };
-    RCSendCardMessageView *sendCardView = [[RCSendCardMessageView alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
+    RCSendCardMessageView *sendCardView = [[RCSendCardMessageView alloc] initWithFrame:[[UIScreen mainScreen] bounds] ConversationType:self.conversationType targetId:self.targetId];
     RCUserInfo *cardUserInfo = [RCUserInfo new];
     cardUserInfo.userId = user.userId;
     cardUserInfo.name = user.name;
     cardUserInfo.portraitUri = user.portraitUri;
     sendCardView.cardUserInfo = cardUserInfo;
-    [sendCardView setConversationType:self.conversationType targetId:self.targetId];
     [[RCKitUtility getKeyWindow] addSubview:sendCardView];
 }
 

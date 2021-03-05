@@ -69,22 +69,20 @@
              completion:(void (^)(UIImage *image, NSURL *imageURL, NSError *error))completion;
 #endif
 
+- (NSData *)getImageDataForURL:(NSURL *)aURL;
 - (BOOL)hasLoadedImageURL:(NSURL *)aURL;
 - (void)cancelLoadForURL:(NSURL *)aURL;
-
+- (NSString *)cachePathForURL:(NSURL *)aURL;
 - (void)clearCacheForURL:(NSURL *)aURL;
 - (void)clearCacheForURL:(NSURL *)aURL style:(NSString *)style;
 
-@property (nonatomic, retain) NSDictionary *currentConnections;
+@property (nonatomic, strong) NSDictionary *currentConnections;
 @end
 
 @protocol RCloudImageLoaderObserver <NSObject>
 @optional
-- (void)imageLoaderDidLoad:(NSNotification *)notification;       // Object will be
-                                                                 // EGOImageLoader,
-                                                                 // userInfo will
-                                                                 // contain imageURL
-                                                                 // and image
-- (void)imageLoaderDidFailToLoad:(NSNotification *)notification; // Object will be EGOImageLoader, userInfo
-                                                                 // will contain error
+- (void)imageLoaderDidLoad:
+    (NSNotification *)notification; // Object will be EGOImageLoader, userInfo will contain imageURL and image
+- (void)imageLoaderDidFailToLoad:
+    (NSNotification *)notification; // Object will be EGOImageLoader, userInfo will contain error
 @end
